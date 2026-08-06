@@ -1,5 +1,6 @@
 {
   "month": "2026-08",
-  "used": 37,
-  "updated_at": "2026-08-06T21:15:33.364940+00:00"
+  "used": 40,
+  "updated_at": "2026-08-06T21:15:33.364940+00:00",
+  "note": "+3 reconciled: rating-parameter probes issued outside the client"
 }
