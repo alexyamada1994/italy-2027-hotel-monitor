@@ -69,6 +69,7 @@
   .scroll { overflow-x:auto; }
   .flag { font-size:12px; color:var(--text-secondary); white-space:nowrap; }
   .below { color:var(--serious); }
+  .flag.thin { color:var(--warning); }
   .muted { color:var(--muted); }
   .note { font-size:13px; color:var(--text-secondary); margin-top:8px; }
   .alert { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--grid); font-size:14px; }
@@ -305,7 +306,10 @@ function drawLegs(d) {
         `<td>${r.nearest_zone ? esc(r.nearest_zone) : '<span class="muted">—</span>'}` +
           `<br><span class="flag muted">${r.distance_to_zone_m != null ? Math.round(r.distance_to_zone_m)+' m' : ''}</span></td>` +
         `<td class="num">${r.rating ? r.rating.toFixed(1) : '—'}` +
-          `<br><span class="flag muted">${r.review_count ? r.review_count.toLocaleString('en-US') : ''}</span></td>` +
+          `<br><span class="flag ${r.low_confidence ? 'thin' : 'muted'}"` +
+          `${r.low_confidence ? ' title="Few reviews — treat this rating as weak evidence"' : ''}>` +
+          `${r.review_count ? r.review_count.toLocaleString('en-US') : '0'} rev` +
+          `${r.low_confidence ? ' ⚠' : ''}</span></td>` +
         `<td class="num">${r.delta_vs_last_run_pct == null ? '<span class="muted">—</span>'
             : (r.delta_vs_last_run_pct === 0 ? '0%'
               : `<span style="color:${r.delta_vs_last_run_pct < 0 ? 'var(--good)' : 'var(--critical)'}">${

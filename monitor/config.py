@@ -25,8 +25,30 @@ MIN_CREDITS_FOR_CYCLE = 6
 
 # --- Source ------------------------------------------------------------------
 SEARCH_URL = "https://scrappa.co/api/google-hotels/search"
-FIXED_PARAMS = {"adults": 2, "currency": "EUR", "gl": "it", "hl": "en"}
 OCCUPANCY = {"adults": 2, "rooms": 1}
+
+# Minimum guest rating, applied server-side. Google Hotels takes a coded value,
+# not a number: 7 = 3.5+, 8 = 4.0+, 9 = 4.5+ (a literal 4.5 is rejected with
+# HTTP 422). Filtering at the source rather than locally is what makes this
+# affordable: a page is 20 properties either way, so asking for 4.5+ returns 20
+# qualifying hotels for one credit instead of ~8 survivors out of 20.
+MIN_RATING_CODE = 9
+RATING_CODE_TO_MIN = {7: 3.5, 8: 4.0, 9: 4.5}
+MIN_RATING = RATING_CODE_TO_MIN[MIN_RATING_CODE]
+
+# Properties not re-observed within this window drop off the dashboard. Anchors
+# rotate, so a hotel can miss a few cycles legitimately -- but a price from
+# weeks ago must not keep anchoring the headline trip total.
+STALE_AFTER_DAYS = 14
+
+FIXED_PARAMS = {"adults": 2, "currency": "EUR", "gl": "it", "hl": "en",
+                "rating": MIN_RATING_CODE}
+
+# A 5.0 from 3 reviews is not evidence. Properties below this review count keep
+# their place in the results but are flagged `low_confidence` and demoted in the
+# tiebreak, so a thinly-reviewed 4.8 never outranks a well-reviewed 4.6. Set to
+# 0 to disable the flag entirely; nothing is ever dropped for it.
+MIN_REVIEWS_FOR_CONFIDENCE = 30
 
 # --- City tax ----------------------------------------------------------------
 # Google Hotels does not expose the Italian tassa di soggiorno: the gap between

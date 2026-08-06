@@ -12,7 +12,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-from monitor import config, state
+from monitor import config, core, state
 
 DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
 OUT_PATH = os.path.join(DOCS_DIR, "data.json")
@@ -38,6 +38,21 @@ def _load_runs():
     return runs
 
 
+def _current(row, now=None):
+    """A row still worth showing: meets today's rating floor and was seen
+    recently. History keeps everything; the dashboard shows what is current."""
+    if (row.get("rating") or 0) < config.MIN_RATING:
+        return False
+    seen = row.get("last_seen")
+    if not seen:
+        return False
+    try:
+        age = (now or datetime.now(timezone.utc)) - datetime.fromisoformat(seen)
+    except ValueError:
+        return True
+    return age.days <= config.STALE_AFTER_DAYS
+
+
 def build():
     runs = _load_runs()
 
@@ -51,7 +66,13 @@ def build():
             lid = leg["leg_id"]
             for row in leg.get("results", []):
                 key = f"{lid}:{row['hotel_id']}"
-                latest[key] = dict(row, leg_id=lid, last_seen=ts, query=leg.get("query"))
+                # Derive low_confidence rather than trusting the stored value:
+                # rows recorded before the field existed would otherwise read
+                # as well-evidenced and outrank properly flagged ones.
+                latest[key] = dict(
+                    row, leg_id=lid, last_seen=ts, query=leg.get("query"),
+                    low_confidence=(row.get("review_count") or 0)
+                    < config.MIN_REVIEWS_FOR_CONFIDENCE)
             # One point per leg per cycle: the best in-band price on offer.
             band = [r["price_per_night_eur"] for r in leg.get("results", [])
                     if r["band_status"] == "in_band"]
@@ -66,14 +87,20 @@ def build():
 
     for leg in config.LEGS:
         lid = leg["leg_id"]
-        rows = [r for k, r in latest.items() if r["leg_id"] == lid]
+        pool = [r for k, r in latest.items()
+                if r["leg_id"] == lid and _current(r)]
         # In-band first, then below-band: below-band is kept for human review
-        # but must not bury the options that actually meet the brief.
-        rows.sort(key=lambda r: (r["band_status"] != "in_band", r["price_per_night_eur"]))
+        # but must not bury the options that actually meet the brief. Inside
+        # each group use the monitor's own ranking, so the breakfast / AC /
+        # review-confidence tiebreak survives into the dashboard.
+        rows = (core.rank([r for r in pool if r["band_status"] == "in_band"]) +
+                core.rank([r for r in pool if r["band_status"] != "in_band"]))
         in_band = [r for r in rows if r["band_status"] == "in_band"]
 
         if in_band:
-            trip_low += in_band[0]["price_per_night_eur"] * leg["nights"]
+            # Explicitly the cheapest, not rows[0]: the list is rank-ordered,
+            # where a pricier option can lead on breakfast or review evidence.
+            trip_low += min(r["price_per_night_eur"] for r in in_band) * leg["nights"]
         else:
             trip_complete = False
 

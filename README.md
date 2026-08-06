@@ -72,6 +72,30 @@ anchors instead.
 than the singular `leg_id`/`city` template, so run-level counters and `errors`
 are not duplicated six times. Chosen because you had no preference.
 
+## Rating floor
+
+Minimum guest rating is **4.5+**, applied server-side via the API's `rating`
+parameter. It takes a coded value, not a number: `7` = 3.5+, `8` = 4.0+,
+`9` = 4.5+ — a literal `4.5` is rejected with HTTP 422. Set
+`config.MIN_RATING_CODE` to change it.
+
+Filtering at the source is what makes the bar affordable. A page is 20
+properties either way, so asking for 4.5+ returns 20 qualifying hotels per
+credit instead of ~8 survivors out of 20. Measured cost of raising the floor:
+the cheapest full trip moved from EUR 3,273 to EUR 3,276, while the tracked set
+halved from 91 properties to 47.
+
+**A rating is only as good as its evidence.** A 5.0 from 3 reviews is not a
+recommendation. Properties below `MIN_REVIEWS_FOR_CONFIDENCE` (30) are flagged
+`low_confidence`, demoted in the tiebreak so a thin 4.8 never outranks a
+well-reviewed 4.6, and badged on the dashboard. **Nothing is ever dropped for
+it** — the flag informs, it does not filter.
+
+The dashboard applies the current floor at presentation time and hides
+properties not re-observed within `STALE_AFTER_DAYS` (14), so a price from
+weeks ago cannot keep anchoring the headline total. History keeps everything;
+only the view is filtered.
+
 ## Known behaviour, not bugs
 
 - **Unpriced properties.** Many properties return no price this far out — 17/20

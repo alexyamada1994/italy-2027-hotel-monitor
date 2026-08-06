@@ -181,6 +181,7 @@ def build_result(prop, leg, snapshot, history, now):
         "breakfast_included": breakfast,
         "rating": prop.get("overall_rating") or 0.0,
         "review_count": prop.get("reviews") or 0,
+        "low_confidence": (prop.get("reviews") or 0) < config.MIN_REVIEWS_FOR_CONFIDENCE,
         "url": prop.get("link") or "",
         "band_status": band,
         "detail_checked_at": None,
@@ -193,12 +194,13 @@ def build_result(prop, leg, snapshot, history, now):
 
 def rank(results):
     """Cheapest first; inside a +/- EUR 10 window prefer breakfast, then AC,
-    then rating."""
+    then well-evidenced ratings over thinly-reviewed ones, then rating."""
     def key(r):
         bucket = round(r["price_per_night_eur"] / config.TIEBREAK_WINDOW_EUR)
         return (bucket,
                 0 if r["breakfast_included"] else 1,
                 0 if r["has_ac"] else 1,
+                1 if r.get("low_confidence") else 0,
                 -(r["rating"] or 0.0),
                 r["price_per_night_eur"])
     return sorted(results, key=key)
