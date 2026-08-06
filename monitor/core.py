@@ -1,8 +1,22 @@
 """Normalisation, constraint filtering, deltas and alerts."""
 
+import re
 from datetime import datetime, timedelta, timezone
 
 from . import config, geo
+
+_EXCLUDE_RE = re.compile("|".join(config.EXCLUDE_NAME_PATTERNS), re.IGNORECASE) \
+    if config.EXCLUDE_NAME_PATTERNS else None
+
+
+def is_excluded_property(name):
+    """Hostels and dorm-style properties, matched on name.
+
+    The source reports them as `type: "hotel"`, so this is the only reliable
+    signal available. Patterns are word-boundary anchored to avoid catching
+    names that merely contain the substring.
+    """
+    return bool(_EXCLUDE_RE and name and _EXCLUDE_RE.search(name))
 
 # Amenity strings as the source spells them (observed vocabulary).
 _AC_TOKENS = ("air conditioning",)
@@ -112,6 +126,11 @@ def build_result(prop, leg, snapshot, history, now):
     if not hotel_id:
         return None, {"hotel_id": None, "hotel_name": name, "price_per_night_eur": 0.0,
                       "band_status": None, "reason": "missing property_token"}
+
+    if is_excluded_property(name):
+        return None, {"hotel_id": hotel_id, "hotel_name": name,
+                      "price_per_night_eur": 0.0, "band_status": None,
+                      "reason": "hostel (excluded property type)"}
 
     per_night, total_stay, city_tax = normalise_price(prop, leg)
     if per_night is None:

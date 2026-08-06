@@ -50,6 +50,18 @@ FIXED_PARAMS = {"adults": 2, "currency": "EUR", "gl": "it", "hl": "en",
 # 0 to disable the flag entirely; nothing is ever dropped for it.
 MIN_REVIEWS_FOR_CONFIDENCE = 30
 
+# Hostels. Google Hotels labels them `type: "hotel"`, so the type field cannot
+# separate them; the API's `property_types` is an include-list, which would mean
+# enumerating every other code. Name matching is the reliable lever here.
+# Word-boundary anchored so "Hostellerie" (a legitimate inn) is not caught.
+EXCLUDE_NAME_PATTERNS = [
+    r"\bhostels?\b",
+    r"\bostell[oi]\b",
+    r"\bbackpackers?\b",
+    r"\bdormitor(?:y|io)\b",
+    r"\byouth\s+hostel\b",
+]
+
 # --- City tax ----------------------------------------------------------------
 # Google Hotels does not expose the Italian tassa di soggiorno: the gap between
 # `lowest` and `before_taxes_fees` was measured at ~0.5% (EUR 102 vs 101.51),

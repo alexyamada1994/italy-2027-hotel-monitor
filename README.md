@@ -96,6 +96,26 @@ properties not re-observed within `STALE_AFTER_DAYS` (14), so a price from
 weeks ago cannot keep anchoring the headline total. History keeps everything;
 only the view is filtered.
 
+## Hostels
+
+Excluded by name match (`config.EXCLUDE_NAME_PATTERNS`), not by the API.
+
+The source reports hostels as `type: "hotel"`, so the type field cannot
+separate them. The API's `property_types` parameter *is* honoured, but it is an
+include-list — excluding one category would mean enumerating every other code,
+discovered by trial and fragile to change. Name matching is deterministic,
+costs no credits, and is auditable.
+
+Patterns are word-boundary anchored, verified against all 274 distinct property
+names captured so far: 7 matched (all genuine hostels), with `Hostellerie du
+Lac`, `Hotel Ostella`, `Hostal Barcelona` and `Hosteria del Mar` correctly
+kept. The filter applies both at collection time and in the dashboard, so
+hostels tracked before it existed drop out of the view.
+
+In practice they were never competing for a recommendation — the ones seen
+priced at EUR 36–78/night against band floors of EUR 150–220, so they could
+only ever land in `below_band`.
+
 ## Known behaviour, not bugs
 
 - **Unpriced properties.** Many properties return no price this far out — 17/20

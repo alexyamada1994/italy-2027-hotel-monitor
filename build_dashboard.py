@@ -43,6 +43,8 @@ def _current(row, now=None):
     recently. History keeps everything; the dashboard shows what is current."""
     if (row.get("rating") or 0) < config.MIN_RATING:
         return False
+    if core.is_excluded_property(row.get("hotel_name")):
+        return False
     seen = row.get("last_seen")
     if not seen:
         return False
