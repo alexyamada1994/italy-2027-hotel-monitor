@@ -1,0 +1,85 @@
+name: hotel-monitor
+
+on:
+  schedule:
+    # Every 12h, uniform. GitHub cron resets daily, so "every 10 hours" is not
+    # expressible: `0 */10 * * *` fires at 00/10/20 UTC — 3 runs/day, ~91
+    # cycles/month, 546 credits, over the 500 cap. 12h gives 2 runs/day
+    # (~61 cycles, ~366 credits) with headroom for manual runs and retries.
+    - cron: "0 2,14 * * *"
+  workflow_dispatch:        # manual run
+
+# Never let two cycles interleave: they would race on state/ and double-charge
+# the ledger. A queued run waits rather than cancelling, so no cycle is lost.
+concurrency:
+  group: hotel-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write           # required to commit state/ and docs/data.json back
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet requests python-dotenv
+
+      - name: Run cycle
+        env:
+          SCRAPPA_API_KEY: ${{ secrets.SCRAPPA_API_KEY }}
+        run: |
+          if [ -z "$SCRAPPA_API_KEY" ]; then
+            echo "::error::SCRAPPA_API_KEY secret is not set"; exit 1
+          fi
+          python run_cycle.py > run_output.json
+          python - <<'PY'
+          import json
+          run = json.load(open("run_output.json"))
+          print(f"credits used: {run['credits_used_this_run']} | "
+                f"remaining: {run['credits_remaining_month']}")
+          for leg in run.get("legs", []):
+              ib = sum(1 for r in leg["results"] if r["band_status"] == "in_band")
+              print(f"  leg{leg['leg_id']} {leg['city']:<18} {leg['query']:<26} "
+                    f"in_band={ib} total={len(leg['results'])}")
+          for a in run.get("alerts", []):
+              print(f"::notice::[{a['type']}] {a.get('hotel_name') or ''} {a['detail']}")
+          for e in run.get("errors", []):
+              print(f"::warning::leg {e['leg_id']}: {e['message']}")
+          PY
+
+      - name: Rebuild dashboard data
+        run: python build_dashboard.py
+
+      - name: Commit state and dashboard
+        run: |
+          git config user.name  "hotel-monitor[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/ docs/data.json
+          if git diff --staged --quiet; then
+            echo "nothing changed"; exit 0
+          fi
+          git commit -m "cycle: $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Another cycle may have landed first; rebase onto it and retry.
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && \
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 5))
+          done
+          echo "::error::could not push state after 3 attempts"; exit 1
+
+      - name: Upload run output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-output
+          path: run_output.json
+          retention-days: 30
+          if-no-files-found: ignore

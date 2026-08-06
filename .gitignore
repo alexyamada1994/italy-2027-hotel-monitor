@@ -1,0 +1,16 @@
+# Secrets — never commit. The API key lives here and in GitHub Actions secrets.
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# Local scratch
+*.tmp
+state/*.tmp
