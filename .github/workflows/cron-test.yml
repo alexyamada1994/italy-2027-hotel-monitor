@@ -1,0 +1,14 @@
+# TEMPORARY — verifies that GitHub's scheduler fires for this repo.
+# Spends no API credits. Delete once a `schedule` event is confirmed.
+name: cron-test
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "scheduler fired at $(date -u +%Y-%m-%dT%H:%M:%SZ) via ${{ github.event_name }}"
