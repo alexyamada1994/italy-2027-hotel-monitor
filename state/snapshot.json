@@ -291,7 +291,7 @@
     "price_per_night_eur": 158.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "5:CIABIhAYxid6pEnLkQPeiKZyqIKk": {
     "hotel_name": "Hotel Al Larin",
@@ -312,7 +312,7 @@
     "price_per_night_eur": 155.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "5:CIHM0ogKEICAgIC7z9n8YQ": {
     "hotel_name": "Cristallo & Faloria Suite Apartments",
@@ -340,7 +340,7 @@
     "price_per_night_eur": 277.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "1:CIHM0ogKEICAgICknsOwFg": {
     "hotel_name": "Domus Fontis",
@@ -473,7 +473,7 @@
     "price_per_night_eur": 235.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-06T21:25:09.514492+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "2:ChkIkezMtdamvOcdGg0vZy8xMWI3M2t4ajhsEAE": {
     "hotel_name": "Salterelli House",
@@ -487,7 +487,7 @@
     "price_per_night_eur": 20.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T00:19:59.438255+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "3:CIHM0ogKEICAgIC6lP2MiwE": {
     "hotel_name": "Hotel Antico Capon, Venice",
@@ -512,10 +512,10 @@
   },
   "3:CIHM0ogKEICAgIC6trm-CA": {
     "hotel_name": "Santa Margherita Guesthouse Venezia di Maria Chiara Cristofori",
-    "price_per_night_eur": 188.0,
+    "price_per_night_eur": 124.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-06T21:25:09.514492+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "3:ChoQmpXlpsry76KgARoNL2cvMTF4Y193aHJuNBAC": {
     "hotel_name": "Rental apartment | Next to Santa Maria della Salute",
@@ -575,10 +575,10 @@
   },
   "6:CIABIhDor06_LDNBucx8YJR27GDG": {
     "hotel_name": "Scarlatti Hotel Milano",
-    "price_per_night_eur": 170.0,
+    "price_per_night_eur": 146.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:CIABIhBy_9apPKxEiNYNmj68ZcMd": {
     "hotel_name": "Just Hotel Milano",
@@ -617,10 +617,10 @@
   },
   "6:CIABIhCf1Y9KFFKVDsxhNUNQOoYx": {
     "hotel_name": "INNSiDE by Meliá Milano Torre GalFa",
-    "price_per_night_eur": 199.0,
+    "price_per_night_eur": 169.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-06T19:50:08.441453+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:CIHM0ogKEICAgID83uqQWw": {
     "hotel_name": "UNA Hotels Century Milano",
@@ -753,7 +753,7 @@
     "price_per_night_eur": 20.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:ChoQ98u4qpWk2f_MARoNL2cvMTF6Zm15ZjF0OBAC": {
     "hotel_name": "Nice Livings Gioia 4",
@@ -764,31 +764,31 @@
   },
   "6:CIHM0ogKEICAgIC85bmV8gE": {
     "hotel_name": "Hotel Berna",
-    "price_per_night_eur": 166.0,
+    "price_per_night_eur": 123.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:CIHM0ogKEICAgICxiZqOcQ": {
     "hotel_name": "Hotel Midway",
-    "price_per_night_eur": 205.0,
+    "price_per_night_eur": 175.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:CIHM0ogKEICAgICjvqeOBw": {
     "hotel_name": "Binario Verticale",
-    "price_per_night_eur": 210.0,
+    "price_per_night_eur": 191.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "6:CIHM0ogKEICAgMDA0-XOPw": {
     "hotel_name": "B&B Hotel Milano Aosta",
-    "price_per_night_eur": 250.0,
+    "price_per_night_eur": 227.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   },
   "1:CIHM0ogKEICAgICay_P_QQ": {
     "hotel_name": "Domus Trevi",
@@ -852,5 +852,26 @@
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
     "run_ts": "2026-08-11T03:26:48.612259+00:00"
+  },
+  "2:CIHM0ogKEICAgID8xtvleg": {
+    "hotel_name": "TORNABUONI VIEW Luxury Bed and Breakfast Firenze",
+    "price_per_night_eur": 232.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
+  },
+  "5:CIABIhADydERai_kMGfUMyAAA00i": {
+    "hotel_name": "Franceschi Park Hotel",
+    "price_per_night_eur": 225.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
+  },
+  "6:CIHM0ogKEICAgID-6MOOygE": {
+    "hotel_name": "Residence De La Gare",
+    "price_per_night_eur": 173.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-11T14:51:02.044247+00:00"
   }
 }
