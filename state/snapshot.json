@@ -8,17 +8,17 @@
   },
   "1:CIHM0ogKEICAgICi3ZLLfg": {
     "hotel_name": "Atelier Musicale Suites",
-    "price_per_night_eur": 189.0,
+    "price_per_night_eur": 244.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-06T19:47:38.907742+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "1:CIHM0ogKEICAgIDhquaGbQ": {
     "hotel_name": "Hotel Piazza di Spagna",
-    "price_per_night_eur": 233.0,
+    "price_per_night_eur": 235.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "1:ChoQ7-jlubfN4JS1ARoNL2cvMTFuaGxoeGhnYhAC": {
     "hotel_name": "Appartamento Via delle Carrozze, Piazza di Spagna - Entire Place",
@@ -32,14 +32,14 @@
     "price_per_night_eur": 234.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "1:ChoQjOSs4-7eocalARoNL2cvMTF0eHFuOTNtbhAC": {
     "hotel_name": "Ferienwohnung | Trevi-Brunnen-Nähe",
     "price_per_night_eur": 228.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-07T22:57:50.154984+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "1:CIHM0ogKEICAgIC6nLX8iAE": {
     "hotel_name": "Rhona Rooms",
@@ -67,7 +67,7 @@
     "price_per_night_eur": 162.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:CIHM0ogKEICAgID87rfsuQE": {
     "hotel_name": "La Residenza del Proconsolo",
@@ -102,7 +102,7 @@
     "price_per_night_eur": 188.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:CIHM0ogKEICAgIC6jtqDzAE": {
     "hotel_name": "Hotel De Lanzi",
@@ -130,28 +130,28 @@
     "price_per_night_eur": 219.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:CIHM0ogKEICAgIC61ujM8QE": {
     "hotel_name": "Granduomo",
     "price_per_night_eur": 230.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:ChoQ8fX8rtiAl_uzARoNL2cvMTF6a3ZmN2p6bBAC": {
     "hotel_name": "Appartamento Duomo",
     "price_per_night_eur": 234.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:CIHM0ogKEICAgIC8mce6ngE": {
     "hotel_name": "N4U Guest House Florence",
     "price_per_night_eur": 238.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "2:CIHM0ogKEICAgICpqfnCAw": {
     "hotel_name": "B&B Duomo View",
@@ -190,10 +190,10 @@
   },
   "3:CIABIhC1I6PwlPpDT8Wad9-Nud5d": {
     "hotel_name": "40.17 San Marco",
-    "price_per_night_eur": 172.0,
+    "price_per_night_eur": 175.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "3:CIABIhD2t_r8jRahvU787LKDOdEq": {
     "hotel_name": "Albergo San Marco",
@@ -291,7 +291,7 @@
     "price_per_night_eur": 158.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T14:51:02.044247+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "5:CIABIhAYxid6pEnLkQPeiKZyqIKk": {
     "hotel_name": "Hotel Al Larin",
@@ -309,10 +309,10 @@
   },
   "5:ChoQ_PiJwvPqvO_lARoNL2cvMTF2OWM0N2JsXxAC": {
     "hotel_name": "Cristallo Faloria Suite Apartments - Apartment - Split Level",
-    "price_per_night_eur": 155.0,
+    "price_per_night_eur": 150.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T14:51:02.044247+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "5:CIHM0ogKEICAgIC7z9n8YQ": {
     "hotel_name": "Cristallo & Faloria Suite Apartments",
@@ -330,17 +330,17 @@
   },
   "5:CIHM0ogKEICAgMDAo5_1_AE": {
     "hotel_name": "Franceschi Park Hotel",
-    "price_per_night_eur": 225.0,
+    "price_per_night_eur": 205.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "5:ChoQvriG-fqQu7CDARoNL2cvMTF3MXpkczk0MxAC": {
     "hotel_name": "Breathtaking view! Cortina center at 1.3km.",
-    "price_per_night_eur": 277.0,
+    "price_per_night_eur": 272.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T14:51:02.044247+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "1:CIHM0ogKEICAgICknsOwFg": {
     "hotel_name": "Domus Fontis",
@@ -844,7 +844,7 @@
     "price_per_night_eur": 155.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   },
   "4:ChoQyYnlzKH49fP6ARoNL2cvMTF3cTd3c2duNRAC": {
     "hotel_name": "Apartment | Mountain view",
@@ -873,5 +873,33 @@
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
     "run_ts": "2026-08-11T14:51:02.044247+00:00"
+  },
+  "3:CIHM0ogKEICAgIDV047-dQ": {
+    "hotel_name": "Hotel dell'Opera",
+    "price_per_night_eur": 211.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+  },
+  "3:CIABIhAA3ilWZhkhEGfvcOQABolt": {
+    "hotel_name": "Residence Ca' Foscolo",
+    "price_per_night_eur": 215.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+  },
+  "5:CIHM0ogKEICAgIDijPzY_QE": {
+    "hotel_name": "Hotel Meuble Villa Neve - Cortina",
+    "price_per_night_eur": 224.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+  },
+  "5:CIHM0ogKEICAgICGiMKt7wE": {
+    "hotel_name": "HOTEL de LËN",
+    "price_per_night_eur": 274.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-12T03:57:03.958167+00:00"
   }
 }
