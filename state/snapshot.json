@@ -11,7 +11,7 @@
     "price_per_night_eur": 244.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "1:CIHM0ogKEICAgIDhquaGbQ": {
     "hotel_name": "Hotel Piazza di Spagna",
@@ -32,14 +32,14 @@
     "price_per_night_eur": 234.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "1:ChoQjOSs4-7eocalARoNL2cvMTF0eHFuOTNtbhAC": {
     "hotel_name": "Ferienwohnung | Trevi-Brunnen-Nähe",
     "price_per_night_eur": 228.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "1:CIHM0ogKEICAgIC6nLX8iAE": {
     "hotel_name": "Rhona Rooms",
@@ -127,10 +127,10 @@
   },
   "2:CIHM0ogKEICAgID-6PvwTw": {
     "hotel_name": "Hotel Perseo",
-    "price_per_night_eur": 184.0,
+    "price_per_night_eur": 246.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "2:CIHM0ogKEICAgIC61ujM8QE": {
     "hotel_name": "Granduomo",
@@ -148,10 +148,10 @@
   },
   "2:CIHM0ogKEICAgIC8mce6ngE": {
     "hotel_name": "N4U Guest House Florence",
-    "price_per_night_eur": 228.0,
+    "price_per_night_eur": 239.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "2:CIHM0ogKEICAgICpqfnCAw": {
     "hotel_name": "B&B Duomo View",
@@ -190,10 +190,10 @@
   },
   "3:CIABIhC1I6PwlPpDT8Wad9-Nud5d": {
     "hotel_name": "40.17 San Marco",
-    "price_per_night_eur": 215.0,
+    "price_per_night_eur": 170.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "3:CIABIhD2t_r8jRahvU787LKDOdEq": {
     "hotel_name": "Albergo San Marco",
@@ -211,10 +211,10 @@
   },
   "3:CIHM0ogKEICAgIC61syi0wE": {
     "hotel_name": "Hotel San Gallo",
-    "price_per_night_eur": 210.0,
+    "price_per_night_eur": 201.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "3:ChoQkMHEpqvm-MzPARoNL2cvMTF2cTJmeXBqaBAC": {
     "hotel_name": "Palazzo DaPonte 02",
@@ -256,14 +256,14 @@
     "price_per_night_eur": 236.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "4:CIHM0ogKEICAgIDC0pSiGg": {
     "hotel_name": "B&B Villa Angelino",
     "price_per_night_eur": 261.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-12T14:50:27.349052+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "4:ChoQqcLf35P-zdm8ARoNL2cvMTF2YjFyZDd6NBAC": {
     "hotel_name": "Cristina Hospitality - Entire Place",
@@ -277,7 +277,7 @@
     "price_per_night_eur": 286.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "5:CIABIhADyc5U1jtCKWfIZ2sABoK1": {
     "hotel_name": "Nord Hotel",
@@ -291,7 +291,7 @@
     "price_per_night_eur": 158.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "5:CIABIhAYxid6pEnLkQPeiKZyqIKk": {
     "hotel_name": "Hotel Al Larin",
@@ -308,11 +308,11 @@
     "run_ts": "2026-08-06T19:50:08.441453+00:00"
   },
   "5:ChoQ_PiJwvPqvO_lARoNL2cvMTF2OWM0N2JsXxAC": {
-    "hotel_name": "Cristallo Faloria Suite Apartments - Apartment - Split Level",
+    "hotel_name": "Romantic Suite Cristallo - sunny, Wi-Fi, balcony, parking space, bus 130mt away",
     "price_per_night_eur": 155.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "5:CIHM0ogKEICAgIC7z9n8YQ": {
     "hotel_name": "Cristallo & Faloria Suite Apartments",
@@ -333,14 +333,14 @@
     "price_per_night_eur": 225.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "5:ChoQvriG-fqQu7CDARoNL2cvMTF3MXpkczk0MxAC": {
     "hotel_name": "Breathtaking view! Cortina center at 1.3km.",
-    "price_per_night_eur": 277.0,
+    "price_per_night_eur": 278.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "1:CIHM0ogKEICAgICknsOwFg": {
     "hotel_name": "Domus Fontis",
@@ -739,14 +739,14 @@
     "price_per_night_eur": 255.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "4:ChoQk--orubrruTFARoNL2cvMTF3MzN0Y3d0ahAC": {
     "hotel_name": "Apartments Agave - Apartment with Balcony",
-    "price_per_night_eur": 255.0,
+    "price_per_night_eur": 253.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "6:CIABIhADycKzqSMWQGfcNIUADWPr": {
     "hotel_name": "Agave in Centrale",
@@ -841,17 +841,17 @@
   },
   "2:ChkIq-CusYThxPEBGg0vZy8xMW5qeTIyNWd6EAE": {
     "hotel_name": "BYPILLOW Del Presto",
-    "price_per_night_eur": 134.0,
+    "price_per_night_eur": 155.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "4:ChoQyYnlzKH49fP6ARoNL2cvMTF3cTd3c2duNRAC": {
     "hotel_name": "Apartment | Mountain view",
     "price_per_night_eur": 299.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-11T03:26:48.612259+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "2:CIHM0ogKEICAgID8xtvleg": {
     "hotel_name": "TORNABUONI VIEW Luxury Bed and Breakfast Firenze",
@@ -879,7 +879,7 @@
     "price_per_night_eur": 211.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-12T03:57:03.958167+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "3:CIABIhAA3ilWZhkhEGfvcOQABolt": {
     "hotel_name": "Residence Ca' Foscolo",
@@ -935,7 +935,7 @@
     "price_per_night_eur": 215.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T04:01:16.651893+00:00"
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   },
   "4:CIHM0ogKEICAgIDejtMb": {
     "hotel_name": "Hotel Edda",
@@ -957,5 +957,12 @@
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
     "run_ts": "2026-08-13T04:01:16.651893+00:00"
+  },
+  "3:CIABIhDea7covGqP7ybKYLOGQuqF": {
+    "hotel_name": "Hotel Montecarlo",
+    "price_per_night_eur": 214.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-14T03:57:28.556198+00:00"
   }
 }
