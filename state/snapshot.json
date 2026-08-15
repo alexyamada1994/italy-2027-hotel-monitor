@@ -190,10 +190,10 @@
   },
   "3:CIABIhC1I6PwlPpDT8Wad9-Nud5d": {
     "hotel_name": "40.17 San Marco",
-    "price_per_night_eur": 170.0,
+    "price_per_night_eur": 186.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-08-14T03:57:28.556198+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "3:CIABIhD2t_r8jRahvU787LKDOdEq": {
     "hotel_name": "Albergo San Marco",
@@ -673,24 +673,24 @@
   },
   "4:ChkQs5Xp48fGmfpaGg0vZy8xMW5odzgxMjVwEAI": {
     "hotel_name": "Apartments Praruf - Apartment",
-    "price_per_night_eur": 169.0,
+    "price_per_night_eur": 168.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "4:ChkQrqn7nLeO88p9Gg0vZy8xMXoyMWd6OTlwEAI": {
-    "hotel_name": "Flat with terrace & garden | Mountain view",
-    "price_per_night_eur": 190.0,
+    "hotel_name": "Rental apartment with terrace & yard | Mountain view",
+    "price_per_night_eur": 188.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "4:ChoQwfzaxomYlpT-ARoNL2cvMTF0eHFua2NrbRAC": {
-    "hotel_name": "Apartments Mujnei - Entire Place",
-    "price_per_night_eur": 222.0,
+    "hotel_name": "Apartments Mujnei",
+    "price_per_night_eur": 199.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "4:ChkQ6Pv0883v08xWGg0vZy8xMXcxdnBjbXE5EAI": {
     "hotel_name": "Apartment \"La Grambla Sella 1\" with Mountain View, Balcony & Wi-Fi",
@@ -704,7 +704,7 @@
     "price_per_night_eur": 268.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "2:CIABIhByfcfcTtks-YLxPucfhs6A": {
     "hotel_name": "Relais La Capricciosa",
@@ -805,11 +805,11 @@
     "run_ts": "2026-08-11T00:19:59.438255+00:00"
   },
   "4:ChkQnLuXg8qe8_oWGg0vZy8xMXk1emJsYnBqEAI": {
-    "hotel_name": "Apartments Greva 2",
-    "price_per_night_eur": 271.0,
+    "hotel_name": "Greva Apartments 2 - Apartment with Terrace",
+    "price_per_night_eur": 268.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-13T14:50:49.475092+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "1:ChkQk82D-46Q6LwbGg0vZy8xMXR4cW12eXA2EAI": {
     "hotel_name": "Terrazzo Apartment, A Loft With Terrace In Piazza Di Pietra",
@@ -879,7 +879,7 @@
     "price_per_night_eur": 211.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-14T03:57:28.556198+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "3:CIABIhAA3ilWZhkhEGfvcOQABolt": {
     "hotel_name": "Residence Ca' Foscolo",
@@ -935,7 +935,7 @@
     "price_per_night_eur": 215.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-14T03:57:28.556198+00:00"
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   },
   "4:CIHM0ogKEICAgIDejtMb": {
     "hotel_name": "Hotel Edda",
@@ -964,5 +964,61 @@
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
     "run_ts": "2026-08-14T03:57:28.556198+00:00"
+  },
+  "4:ChoQvouD4vqpirCJARoNL2cvMTF5czYxazBiZBAC": {
+    "hotel_name": "Apartments Rondula Pic",
+    "price_per_night_eur": 199.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "below_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChkQo-S96pCmn6NqGg0vZy8xMXZ5Mms3Njd0EAI": {
+    "hotel_name": "Apartment \"La Grambla Sella\" with Mountain View, Balcony & Wi-Fi",
+    "price_per_night_eur": 219.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "below_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChkQ8KPWvoyZic4XGg0vZy8xMXk1emNrMmxfEAI": {
+    "hotel_name": "Flat with garden & terrace | Mountain view",
+    "price_per_night_eur": 237.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChoQ_NSsvZjjx7r0ARoNL2cvMTFzc2diXzM1dhAC": {
+    "hotel_name": "137A Apartments Raieta",
+    "price_per_night_eur": 248.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChkQvJWZja6Q0fNnGg0vZy8xMWtqNW56d3pwEAI": {
+    "hotel_name": "Flat with garden | Mountain view | Pets are welcome",
+    "price_per_night_eur": 275.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChkQ4Lun4KPF77Z9Gg0vZy8xMXNzZ2MzODZfEAI": {
+    "hotel_name": "Dolomites Apartments Cesa Benedet - Apartment with Balcony",
+    "price_per_night_eur": 286.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "4:ChkQ9aPj1oC8i50qGg0vZy8xMXlzcWQ5MW41EAI": {
+    "hotel_name": "Holiday apartment with patio & garden | Mountain view",
+    "price_per_night_eur": 286.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
+  },
+  "5:ChcItfqql56_gc18GgsvZy8xdGc0dnA2ORAB": {
+    "hotel_name": "Franceschi Park Hotel",
+    "price_per_night_eur": 277.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-08-15T02:45:11.935357+00:00"
   }
 }
