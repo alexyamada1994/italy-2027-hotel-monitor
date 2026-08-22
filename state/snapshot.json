@@ -291,7 +291,7 @@
     "price_per_night_eur": 158.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-22T02:46:53.911939+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "5:CIABIhAYxid6pEnLkQPeiKZyqIKk": {
     "hotel_name": "Hotel Al Larin",
@@ -312,14 +312,14 @@
     "price_per_night_eur": 156.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-22T02:46:53.911939+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "5:CIHM0ogKEICAgIC7z9n8YQ": {
     "hotel_name": "Cristallo & Faloria Suite Apartments",
     "price_per_night_eur": 157.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-22T02:46:53.911939+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "5:CIABIhAM6sYfP5osuLoCb41G4D-W": {
     "hotel_name": "B&B HOTEL Passo Tre Croci Cortina",
@@ -333,21 +333,21 @@
     "price_per_night_eur": 225.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-22T02:46:53.911939+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "5:ChoQvriG-fqQu7CDARoNL2cvMTF3MXpkczk0MxAC": {
     "hotel_name": "Breathtaking view! Cortina center at 1.3km.",
     "price_per_night_eur": 276.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-22T02:46:53.911939+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "1:CIHM0ogKEICAgICknsOwFg": {
     "hotel_name": "Domus Fontis",
     "price_per_night_eur": 199.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "1:CIABIhB7ouZ2ii20_zEOLRjq0asF": {
     "hotel_name": "Boutique Hotel Trevi",
@@ -393,10 +393,10 @@
   },
   "1:ChoI5qagmKv4_aHYARoNL2cvMTF2cTZtc21idhAB": {
     "hotel_name": "HELMIRAGE TREVI SUITE",
-    "price_per_night_eur": 214.0,
+    "price_per_night_eur": 184.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "1:ChkIotymn8iK2tqfARoML2cvMTJobTY3X2JuEAE": {
     "hotel_name": "Rome Kings Relais",
@@ -435,10 +435,10 @@
   },
   "2:ChoQybr6_Mu99MuPARoNL2cvMTF2eTJqNzZ5ZhAC": {
     "hotel_name": "Appartamenti Ponte Vecchio",
-    "price_per_night_eur": 147.0,
+    "price_per_night_eur": 159.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-21T14:25:13.850427+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "2:CIHM0ogKEICAgID8-q_qNA": {
     "hotel_name": "Le Stanze Degli Amidei",
@@ -449,10 +449,10 @@
   },
   "2:CIHM0ogKEICAgID267yIgAE": {
     "hotel_name": "Lunaria Suites - boutique bed and breakfast in florence -",
-    "price_per_night_eur": 181.0,
+    "price_per_night_eur": 211.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-08-21T14:25:13.850427+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "2:ChoQicTH5o_E79-vARoNL2cvMTFuaHc4NnMzcBAC": {
     "hotel_name": "Maison de Mathi - Entire Place",
@@ -470,10 +470,10 @@
   },
   "2:CIHM0ogKEICAgICr25z2uQE": {
     "hotel_name": "Palazzina Fusi",
-    "price_per_night_eur": 204.0,
+    "price_per_night_eur": 235.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-21T14:25:13.850427+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "2:ChkIkezMtdamvOcdGg0vZy8xMWI3M2t4ajhsEAE": {
     "hotel_name": "Salterelli House",
@@ -487,7 +487,7 @@
     "price_per_night_eur": 20.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "3:CIHM0ogKEICAgIC6lP2MiwE": {
     "hotel_name": "Hotel Antico Capon, Venice",
@@ -718,14 +718,14 @@
     "price_per_night_eur": 22.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "2:CIHM0ogKEICAgICRle2LtgE": {
     "hotel_name": "Guicciardini24",
     "price_per_night_eur": 200.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-21T14:25:13.850427+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "4:ChkQ7tX9h6KK5dYLGg0vZy8xMXlscHM3aHpkEAI": {
     "hotel_name": "107B Apartments Meisules",
@@ -795,7 +795,7 @@
     "price_per_night_eur": 25.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "1:ChkQ0qCDw6qCiqgpGg0vZy8xMWtyYnZoY3hwEAI": {
     "hotel_name": "Home In The Garden In The Heart of Rome",
@@ -1023,10 +1023,10 @@
   },
   "2:CIHM0ogKEICAgIDyj92_kgE": {
     "hotel_name": "La Signoria di Firenze",
-    "price_per_night_eur": 235.0,
+    "price_per_night_eur": 250.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-08-21T14:25:13.850427+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "4:CIHM0ogKEICAgIDyr7SOlAE": {
     "hotel_name": "Classic Hotel am Stetteneck",
@@ -1082,7 +1082,7 @@
     "price_per_night_eur": 168.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-08-20T14:26:06.634725+00:00"
+    "run_ts": "2026-08-22T14:12:25.875563+00:00"
   },
   "1:CIHM0ogKEICAgICi0aD_Ew": {
     "hotel_name": "Design&Art Pie' Boutique Guest House",
