@@ -37,8 +37,8 @@ class ScrappaClient:
     def _headers(self):
         return {"Accept": "application/json", "X-API-KEY": self._key}
 
-    def search(self, query, check_in, check_out):
-        """One listing call. Returns the `properties` array."""
+    def search(self, query, check_in, check_out, page_token=None):
+        """One listing call. Returns (properties, next_page_token)."""
         if self.ledger.remaining < 1:
             raise QuotaExhausted("no credits remaining this month")
 
@@ -48,6 +48,8 @@ class ScrappaClient:
             "check_in_date": check_in,
             "check_out_date": check_out,
         })
+        if page_token:
+            params["next_page_token"] = page_token
 
         # Charge before dispatch: a request that fails in flight has still been
         # counted upstream, and under-counting is what silently overruns quota.
@@ -72,4 +74,17 @@ class ScrappaClient:
         except ValueError:
             raise SourceError("non-JSON response") from None
 
-        return payload.get("properties") or []
+        token = (payload.get("pagination") or {}).get("next_page_token")
+        return (payload.get("properties") or []), token
+
+    def search_pages(self, query, check_in, check_out, pages=1):
+        """Up to `pages` consecutive pages. Each page is its own credit, and a
+        page can only be reached through its predecessor's token -- so depth
+        here is a real multiplier on cost, never a free rotation."""
+        out, token = [], None
+        for i in range(max(1, pages)):
+            props, token = self.search(query, check_in, check_out, page_token=token)
+            out.extend(props)
+            if not token or not props:
+                break
+        return out

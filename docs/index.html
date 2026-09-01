@@ -3,332 +3,278 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Italy May 2027 — hotel price monitor</title>
+<title>Italy May 2027 — hotel monitor</title>
 <style>
-  :root {
-    color-scheme: light;
-    --surface-1: #fcfcfb; --plane: #f9f9f7;
-    --text-primary: #0b0b0b; --text-secondary: #52514e; --muted: #898781;
-    --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
-    --good: #0ca30c; --warning: #fab219; --critical: #d03b3b; --serious: #ec835a;
-    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:where(:not([data-theme="light"])) {
-      color-scheme: dark;
-      --surface-1:#1a1a19; --plane:#0d0d0d;
-      --text-primary:#fff; --text-secondary:#c3c2b7; --muted:#898781;
-      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
-      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --surface-1:#1a1a19; --plane:#0d0d0d;
-    --text-primary:#fff; --text-secondary:#c3c2b7; --muted:#898781;
-    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin:0; background:var(--plane); color:var(--text-primary);
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    font-size:15px; line-height:1.5;
-  }
-  .wrap { max-width:1180px; margin:0 auto; padding:32px 20px 72px; }
-  header h1 { font-size:24px; margin:0 0 4px; letter-spacing:-0.01em; }
-  header p { margin:0; color:var(--text-secondary); font-size:14px; }
-  .card {
-    background:var(--surface-1); border:1px solid var(--border);
-    border-radius:10px; padding:18px;
-  }
-  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin:24px 0; }
-  .tile .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
-  .tile .value { font-size:30px; font-weight:600; margin-top:6px; letter-spacing:-0.02em; }
-  .tile .sub { font-size:13px; color:var(--text-secondary); margin-top:2px; }
-  .bar { height:6px; border-radius:3px; background:var(--grid); margin-top:10px; overflow:hidden; }
-  .bar > i { display:block; height:100%; border-radius:3px; background:var(--s1); }
-  h2 { font-size:15px; margin:32px 0 12px; letter-spacing:-0.01em; }
-  h2 .n { color:var(--muted); font-weight:400; }
-  table { width:100%; border-collapse:collapse; font-size:14px; }
-  th { text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em;
-       color:var(--muted); font-weight:600; padding:0 10px 8px 0; white-space:nowrap; }
-  td { padding:8px 10px 8px 0; border-top:1px solid var(--grid); vertical-align:top; }
-  td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
-  a { color:var(--s1); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  .legcard { margin-bottom:14px; }
-  .leghead { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:4px; }
-  .leghead .city { font-size:17px; font-weight:600; }
-  .leghead .meta { font-size:13px; color:var(--text-secondary); }
-  .pill { font-size:11px; padding:2px 8px; border-radius:99px; border:1px solid var(--border);
-          color:var(--text-secondary); white-space:nowrap; }
-  .pill.ok { color:var(--good); border-color:var(--good); }
-  .pill.warn { color:var(--critical); border-color:var(--critical); }
-  .swatch { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:7px; }
-  .scroll { overflow-x:auto; }
-  .flag { font-size:12px; color:var(--text-secondary); white-space:nowrap; }
-  .below { color:var(--serious); }
-  .flag.thin { color:var(--warning); }
-  .muted { color:var(--muted); }
-  .note { font-size:13px; color:var(--text-secondary); margin-top:8px; }
-  .alert { display:flex; gap:10px; padding:8px 0; border-top:1px solid var(--grid); font-size:14px; }
-  .alert:first-child { border-top:0; }
-  .alert .t { font-size:11px; text-transform:uppercase; letter-spacing:.04em;
-              padding:1px 7px; border-radius:99px; border:1px solid var(--border); height:fit-content; white-space:nowrap; }
-  .alert .t.drop { color:var(--good); border-color:var(--good); }
-  .alert .t.thin { color:var(--critical); border-color:var(--critical); }
-  .legend { display:flex; flex-wrap:wrap; gap:14px; font-size:13px; margin-bottom:10px; color:var(--text-secondary); }
-  .empty { color:var(--muted); font-size:14px; padding:10px 0; }
-  footer { margin-top:48px; font-size:12px; color:var(--muted); border-top:1px solid var(--grid); padding-top:14px; }
+  :root{color-scheme:light;
+    --surface-1:#fcfcfb;--plane:#f9f9f7;--text-primary:#0b0b0b;--text-secondary:#52514e;
+    --muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;--border:rgba(11,11,11,.10);
+    --good:#0ca30c;--warning:#fab219;--critical:#d03b3b;--serious:#ec835a;
+    --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;}
+  @media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){color-scheme:dark;
+    --surface-1:#1a1a19;--plane:#0d0d0d;--text-primary:#fff;--text-secondary:#c3c2b7;
+    --muted:#898781;--grid:#2c2c2a;--axis:#383835;--border:rgba(255,255,255,.10);
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;}}
+  :root[data-theme="dark"]{color-scheme:dark;
+    --surface-1:#1a1a19;--plane:#0d0d0d;--text-primary:#fff;--text-secondary:#c3c2b7;
+    --muted:#898781;--grid:#2c2c2a;--axis:#383835;--border:rgba(255,255,255,.10);
+    --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 20px 72px}
+  h1{font-size:23px;margin:0 0 4px;letter-spacing:-.01em}
+  header p{margin:0;color:var(--text-secondary);font-size:13.5px}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0}
+  .tile .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .tile .value{font-size:28px;font-weight:600;margin-top:4px;letter-spacing:-.02em}
+  .tile .sub{font-size:12.5px;color:var(--text-secondary)}
+  .bar{height:5px;border-radius:3px;background:var(--grid);margin-top:9px;overflow:hidden}
+  .bar>i{display:block;height:100%;border-radius:3px;background:var(--s1)}
+  h2{font-size:14px;margin:26px 0 10px;letter-spacing:-.01em}
+  h2 .n{color:var(--muted);font-weight:400}
+  /* controls */
+  .controls{position:sticky;top:0;z-index:5;background:var(--plane);padding:10px 0 12px;
+    border-bottom:1px solid var(--grid);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .controls input[type=search],.controls select{font:inherit;font-size:14px;color:var(--text-primary);
+    background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+  .controls input[type=search]{flex:1 1 260px;min-width:200px}
+  .chk{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--text-secondary);
+    background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer}
+  .count{font-size:13px;color:var(--muted);margin-left:auto;white-space:nowrap}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+     font-weight:600;padding:0 10px 8px 0;white-space:nowrap;cursor:pointer;user-select:none}
+  th.sorted{color:var(--text-primary)}
+  td{padding:9px 10px 9px 0;border-top:1px solid var(--grid);vertical-align:top}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.liked td{background:color-mix(in srgb,var(--good) 7%,transparent)}
+  a{color:var(--s1);text-decoration:none} a:hover{text-decoration:underline}
+  .swatch{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .flag{font-size:12px;color:var(--text-secondary)}
+  .muted{color:var(--muted)} .thin{color:var(--warning)} .below{color:var(--serious)}
+  .pill{font-size:10.5px;padding:1px 7px;border-radius:99px;border:1px solid var(--border);
+    color:var(--text-secondary);white-space:nowrap;margin-left:6px}
+  .pill.good{color:var(--good);border-color:var(--good)}
+  .scroll{overflow-x:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:13px;font-size:13px;margin-bottom:8px;color:var(--text-secondary)}
+  .empty{color:var(--muted);font-size:14px;padding:14px 0;text-align:center}
+  details summary{cursor:pointer;font-size:14px;color:var(--text-secondary);padding:2px 0}
+  .alert{display:flex;gap:9px;padding:7px 0;border-top:1px solid var(--grid);font-size:13.5px}
+  .alert:first-child{border-top:0}
+  .alert .t{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;padding:1px 7px;
+    border-radius:99px;border:1px solid var(--border);height:fit-content;white-space:nowrap}
+  .alert .t.drop{color:var(--good);border-color:var(--good)}
+  .alert .t.thin2{color:var(--critical);border-color:var(--critical)}
+  footer{margin-top:44px;font-size:12px;color:var(--muted);border-top:1px solid var(--grid);padding-top:14px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Italy — May 2027</h1>
-    <p id="sub">Loading…</p>
-  </header>
-
+  <header><h1>Italy — May 2027</h1><p id="sub">Loading…</p></header>
   <div class="tiles" id="tiles"></div>
+
+  <h2>Hotels <span class="n" id="hn"></span></h2>
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search hotel or zone…" autocomplete="off">
+    <select id="city"></select>
+    <select id="band">
+      <option value="in_band">In band</option>
+      <option value="all">All bands</option>
+      <option value="below_band">Below band</option>
+    </select>
+    <label class="chk"><input type="checkbox" id="likedonly"> Liked only</label>
+    <label class="chk"><input type="checkbox" id="bfonly"> Breakfast</label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="card scroll" style="border-radius:0 0 10px 10px;border-top:0">
+    <table id="tbl"><thead><tr>
+      <th data-k="hotel_name">Property</th>
+      <th data-k="city">City</th>
+      <th data-k="price_per_night_eur" class="num">Per night</th>
+      <th data-k="total_stay_eur" class="num">Stay</th>
+      <th data-k="distance_to_zone_m">Zone</th>
+      <th data-k="rating" class="num">Rating</th>
+      <th data-k="delta_vs_last_run_pct" class="num">Δ run</th>
+    </tr></thead><tbody id="tb"></tbody></table>
+    <div class="empty" id="none" hidden>No hotels match these filters.</div>
+  </div>
 
   <h2>Best in-band price per leg <span class="n" id="chartn"></span></h2>
   <div class="card">
     <div class="legend" id="legend"></div>
     <div class="scroll"><svg id="chart" role="img" aria-label="Best in-band nightly price per leg over time"></svg></div>
-    <p class="note" id="chartnote"></p>
+    <p class="flag muted" id="chartnote" style="margin:8px 0 0"></p>
   </div>
 
-  <h2>Alerts <span class="n" id="alertn"></span></h2>
-  <div class="card" id="alerts"></div>
-
-  <h2>Candidates by leg</h2>
-  <div id="legs"></div>
+  <h2>Alerts <span class="n" id="an"></span></h2>
+  <div class="card"><details id="alertbox"><summary>Show alerts</summary>
+    <div id="alerts" style="margin-top:8px"></div></details></div>
 
   <footer id="foot"></footer>
 </div>
-
 <script>
-const SERIES = ['--s1','--s2','--s3','--s4','--s5','--s6'];
-const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const eur = n => '€' + Number(n).toLocaleString('en-US', {maximumFractionDigits:0});
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-// Date-only strings must not go through Date(): "2027-05-13" parses as UTC
-// midnight and renders a day earlier in any negative-offset timezone.
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const fmtDate = s => {
-  if (!s) return '—';
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]}` : s;
-};
+const SER=['--s1','--s2','--s3','--s4','--s5','--s6'];
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const eur=n=>'€'+Number(n).toLocaleString('en-US',{maximumFractionDigits:0});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtD=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?`${+m[3]} ${MON[+m[2]-1]}`:(s||'—')};
+const fold=s=>(s||'').normalize('NFKD').replace(/[̀-ͯ]/g,'').toLowerCase();
 
-let DATA = null;
+let DATA=null, ROWS=[], sortKey='price_per_night_eur', sortDir=1;
 
-fetch('data.json?' + Date.now())
-  .then(r => r.ok ? r.json() : Promise.reject(r.status))
-  .then(d => { DATA = d; render(d); })
-  .catch(e => { document.getElementById('sub').textContent = 'Could not load data.json (' + e + ')'; });
+fetch('data.json?'+Date.now()).then(r=>r.ok?r.json():Promise.reject(r.status))
+  .then(d=>{DATA=d;boot(d)})
+  .catch(e=>{document.getElementById('sub').textContent='Could not load data.json ('+e+')'});
 
-function render(d) {
-  const nights = d.legs.reduce((a,l) => a + l.nights, 0);
-  document.getElementById('sub').textContent =
+function boot(d){
+  const nights=d.legs.reduce((a,l)=>a+l.nights,0);
+  document.getElementById('sub').textContent=
     `${d.legs.length} legs · ${nights} nights · 2 adults, 1 room · last run ${
-      d.last_run_ts ? new Date(d.last_run_ts).toLocaleString('en-GB') : '—'} · ${d.cycles} cycles`;
+      d.last_run_ts?new Date(d.last_run_ts).toLocaleString('en-GB'):'—'} · ${d.cycles} cycles`;
 
-  // --- stat tiles ---------------------------------------------------------
-  const totalInBand = d.legs.reduce((a,l) => a + l.in_band_count, 0);
-  const thinLegs = d.legs.filter(l => l.in_band_count < 3).length;
-  const pct = d.trip_total_low_eur
-    ? Math.min(100, Math.max(0, (d.trip_total_low_eur - d.budget_floor_eur) /
-        (d.budget_ceiling_eur - d.budget_floor_eur) * 100)) : 0;
+  // flatten every leg into one searchable list — the whole point of the rebuild
+  ROWS=d.legs.flatMap(l=>l.candidates.map(c=>({...c,city:l.city,leg_id:l.leg_id,
+      nights:l.nights,_hay:fold(c.hotel_name+' '+(c.nearest_zone||'')+' '+l.city)})));
 
-  const creditPct = d.monthly_credits ? d.credits_used_month / d.monthly_credits * 100 : 0;
+  const sel=document.getElementById('city');
+  sel.innerHTML='<option value="">All cities</option>'+
+    d.legs.map(l=>`<option value="${l.leg_id}">${esc(l.city)} (${l.in_band_count})</option>`).join('');
 
-  document.getElementById('tiles').innerHTML = [
-    tile('Cheapest full trip',
-         d.trip_total_low_eur ? eur(d.trip_total_low_eur) : '—',
-         d.trip_total_low_eur
-           ? `vs ${eur(d.budget_floor_eur)}–${eur(d.budget_ceiling_eur)} budget`
-           : 'no in-band option on every leg yet',
-         d.trip_total_low_eur ? pct : null,
-         d.trip_total_low_eur && d.trip_total_low_eur > d.budget_ceiling_eur ? 'var(--critical)' : 'var(--s1)'),
-    tile('In-band options', totalInBand,
-         thinLegs ? `${thinLegs} leg${thinLegs>1?'s':''} under 3 options` : 'every leg has 3+', null),
-    tile('Tracked properties', d.legs.reduce((a,l)=>a+l.candidates.length,0),
-         `${d.cycles} cycle${d.cycles===1?'':'s'} recorded`, null),
-    tile('API credits', `${d.credits_used_month} / ${d.monthly_credits}`,
-         `${d.credits_remaining_month ?? '—'} left this month`, creditPct,
-         creditPct > 85 ? 'var(--critical)' : 'var(--s1)'),
+  const inBand=d.legs.reduce((a,l)=>a+l.in_band_count,0);
+  const thin=d.legs.filter(l=>l.in_band_count<3).length;
+  const liked=ROWS.filter(r=>r.preference==='liked').length;
+  const pct=d.trip_total_low_eur?Math.min(100,Math.max(0,(d.trip_total_low_eur-d.budget_floor_eur)/
+      (d.budget_ceiling_eur-d.budget_floor_eur)*100)):0;
+  const cp=d.monthly_credits?d.credits_used_month/d.monthly_credits*100:0;
+  document.getElementById('tiles').innerHTML=[
+    tile('Cheapest full trip',d.trip_total_low_eur?eur(d.trip_total_low_eur):'—',
+      d.trip_total_low_eur?`vs ${eur(d.budget_floor_eur)}–${eur(d.budget_ceiling_eur)}`:'no in-band option on every leg',
+      d.trip_total_low_eur?pct:null,d.trip_total_low_eur>d.budget_ceiling_eur?'var(--critical)':'var(--s1)'),
+    tile('In-band options',inBand,thin?`${thin} leg${thin>1?'s':''} under 3`:'every leg has 3+',null),
+    tile('Your picks tracked',liked,`of ${ROWS.length} properties`,null),
+    tile('API credits',`${d.credits_used_month} / ${d.monthly_credits}`,
+      `${d.credits_remaining_month??'—'} left this month`,cp,cp>85?'var(--critical)':'var(--s1)'),
   ].join('');
 
-  drawChart(d);
-  drawAlerts(d);
-  drawLegs(d);
+  ['q','city','band','likedonly','bfonly'].forEach(id=>
+    document.getElementById(id).addEventListener('input',draw));
+  document.querySelectorAll('#tbl thead th').forEach(th=>th.addEventListener('click',()=>{
+    const k=th.dataset.k;
+    if(k===sortKey) sortDir=-sortDir; else {sortKey=k;sortDir=(k==='rating')?-1:1;}
+    draw();
+  }));
 
-  document.getElementById('foot').innerHTML =
-    `Generated ${new Date(d.generated_at).toLocaleString('en-GB')} · prices include taxes and ` +
-    `estimated municipal city tax · free cancellation is not published by the source and is ` +
-    `never verified.` + (d.errors?.length ? ` · ${d.errors.length} error(s) on last run` : '');
+  draw(); drawChart(d); drawAlerts(d);
+  document.getElementById('foot').innerHTML=
+    `Generated ${new Date(d.generated_at).toLocaleString('en-GB')} · prices include taxes and estimated `+
+    `city tax · free cancellation is not published by the source · rejected properties are hidden.`;
 }
 
-function tile(label, value, sub, pct, color) {
-  return `<div class="card tile"><div class="label">${esc(label)}</div>` +
-    `<div class="value">${esc(value)}</div><div class="sub">${esc(sub)}</div>` +
-    (pct === null || pct === undefined ? '' :
-      `<div class="bar"><i style="width:${pct.toFixed(1)}%;background:${color}"></i></div>`) +
-    `</div>`;
+function tile(l,v,s,pct,c){
+  return `<div class="card tile"><div class="label">${esc(l)}</div><div class="value">${esc(v)}</div>`+
+    `<div class="sub">${esc(s)}</div>`+
+    (pct==null?'':`<div class="bar"><i style="width:${pct.toFixed(1)}%;background:${c}"></i></div>`)+`</div>`;
 }
 
-// --- line chart -----------------------------------------------------------
-function drawChart(d) {
-  const svg = document.getElementById('chart');
-  const legsWith = d.legs.filter(l => (d.series[String(l.leg_id)] || []).length > 0);
-  const points = legsWith.reduce((a,l) => a + d.series[String(l.leg_id)].length, 0);
+function draw(){
+  const q=fold(document.getElementById('q').value.trim());
+  const city=document.getElementById('city').value;
+  const band=document.getElementById('band').value;
+  const lo=document.getElementById('likedonly').checked;
+  const bf=document.getElementById('bfonly').checked;
 
-  document.getElementById('legend').innerHTML = legsWith.map(l =>
-    `<span><i class="swatch" style="background:var(${SERIES[l.leg_id-1]})"></i>${esc(l.city)}</span>`).join('');
+  let rows=ROWS.filter(r=>
+    (!q||r._hay.includes(q)) &&
+    (!city||String(r.leg_id)===city) &&
+    (band==='all'||r.band_status===band) &&
+    (!lo||r.preference==='liked') &&
+    (!bf||r.breakfast_included===true));
 
-  if (points < 2) {
-    svg.setAttribute('height', 0);
-    document.getElementById('chartnote').textContent =
-      `Only ${d.cycles} cycle${d.cycles===1?'':'s'} recorded so far — the trend line needs at least two. ` +
-      `It fills in as the schedule runs.`;
-    document.getElementById('chartn').textContent = '';
-    return;
-  }
-
-  const host = svg.parentElement.clientWidth || 900;
-  const W = Math.max(560, host - 2), H = 300;
-  const M = {t:14, r:16, b:28, l:46};
-  const all = legsWith.flatMap(l => d.series[String(l.leg_id)]);
-  const ts = all.map(p => new Date(p[0]).getTime());
-  const vs = all.map(p => p[1]);
-  const t0 = Math.min(...ts), t1 = Math.max(...ts);
-  const v0 = Math.min(...vs), v1 = Math.max(...vs);
-  const pad = Math.max(8, (v1 - v0) * 0.15);
-  const lo = Math.max(0, v0 - pad), hi = v1 + pad;
-  const X = t => M.l + (t1 === t0 ? 0 : (t - t0) / (t1 - t0)) * (W - M.l - M.r);
-  const Y = v => M.t + (1 - (v - lo) / (hi - lo)) * (H - M.t - M.b);
-
-  let g = '';
-  const ticks = 4;
-  for (let i = 0; i <= ticks; i++) {
-    const v = lo + (hi - lo) * i / ticks, y = Y(v);
-    g += `<line x1="${M.l}" y1="${y}" x2="${W-M.r}" y2="${y}" stroke="${cssv('--grid')}" stroke-width="1"/>`;
-    g += `<text x="${M.l-8}" y="${y+4}" text-anchor="end" font-size="11" fill="${cssv('--muted')}">${eur(v)}</text>`;
-  }
-  g += `<line x1="${M.l}" y1="${H-M.b}" x2="${W-M.r}" y2="${H-M.b}" stroke="${cssv('--axis')}" stroke-width="1"/>`;
-  [t0, t1].forEach((t,i) => {
-    g += `<text x="${X(t)}" y="${H-M.b+18}" text-anchor="${i?'end':'start'}" font-size="11" fill="${cssv('--muted')}">${
-      new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</text>`;
+  rows.sort((a,b)=>{
+    if((a.preference==='liked')!==(b.preference==='liked')) return a.preference==='liked'?-1:1;
+    let x=a[sortKey],y=b[sortKey];
+    if(sortKey==='hotel_name'||sortKey==='city'){x=fold(x);y=fold(y);return x<y?-sortDir:x>y?sortDir:0;}
+    x=x??Infinity*sortDir; y=y??Infinity*sortDir;
+    return (x-y)*sortDir;
   });
 
-  legsWith.forEach(l => {
-    const col = cssv(SERIES[l.leg_id-1]);
-    const pts = d.series[String(l.leg_id)]
-      .map(p => [X(new Date(p[0]).getTime()), Y(p[1]), p[1], p[0]])
-      .sort((a,b) => a[0]-b[0]);
-    if (pts.length > 1) {
-      g += `<polyline fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"
-             stroke-linecap="round" points="${pts.map(p=>p[0]+','+p[1]).join(' ')}"/>`;
-    }
-    pts.forEach(p => {
-      g += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${col}" stroke="${cssv('--surface-1')}" stroke-width="2">` +
-           `<title>${esc(l.city)} — ${eur(p[2])}/night, ${new Date(p[3]).toLocaleString('en-GB')}</title></circle>`;
-    });
-    // Direct label on the last point. Single-point series sit at the left
-    // edge, where an end-anchored label would run under the y-axis ticks, so
-    // the anchor follows which half of the plot the point is in.
-    const last = pts[pts.length-1];
-    const leftHalf = last[0] < (M.l + W - M.r) / 2;
-    const lx = leftHalf ? Math.min(last[0] + 9, W - M.r) : Math.max(last[0] - 9, M.l);
-    g += `<text x="${lx}" y="${Math.max(last[1] - 10, M.t + 9)}" text-anchor="${leftHalf?'start':'end'}"
-           font-size="11" fill="${cssv('--text-secondary')}">${esc(l.city)}</text>`;
-  });
+  document.getElementById('count').textContent=`${rows.length} of ${ROWS.length}`;
+  document.getElementById('hn').textContent='';
+  document.getElementById('none').hidden=rows.length>0;
+  document.querySelectorAll('#tbl thead th').forEach(th=>
+    th.classList.toggle('sorted',th.dataset.k===sortKey));
 
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('width', '100%'); svg.setAttribute('height', H);
-  svg.innerHTML = g;
-  document.getElementById('chartn').textContent = `· ${points} observations`;
-  document.getElementById('chartnote').textContent =
-    'Cheapest in-band option found per cycle. Query anchors rotate between cycles, so the ' +
-    'sampled set changes from run to run.';
-}
-
-// --- alerts ---------------------------------------------------------------
-function drawAlerts(d) {
-  const el = document.getElementById('alerts');
-  const labels = {price_drop:'drop', new_in_band:'new', left_band:'left band', thin_inventory:'thin'};
-  const cls = {price_drop:'drop', thin_inventory:'thin'};
-  const shown = d.alerts.slice(0, 25);
-  document.getElementById('alertn').textContent = `· ${d.alerts.length} total`;
-  el.innerHTML = shown.length ? shown.map(a => {
-    const city = (d.legs.find(l => l.leg_id === a.leg_id) || {}).city || '';
-    return `<div class="alert"><span class="t ${cls[a.type]||''}">${esc(labels[a.type]||a.type)}</span>` +
-      `<span><strong>${esc(a.hotel_name || city)}</strong> ` +
-      `<span class="muted">${esc(a.hotel_name ? city : '')}</span><br>` +
-      `<span class="flag">${esc(a.detail)}</span></span></div>`;
-  }).join('') : '<div class="empty">No alerts.</div>';
-}
-
-// --- per-leg tables -------------------------------------------------------
-function drawLegs(d) {
-  document.getElementById('legs').innerHTML = d.legs.map(l => {
-    const rows = l.candidates.slice(0, 12);
-    const thin = l.in_band_count < 3;
-    const head = `<div class="leghead">` +
-      `<span class="swatch" style="background:var(${SERIES[l.leg_id-1]})"></span>` +
-      `<span class="city">${esc(l.city)}</span>` +
-      `<span class="meta">${fmtDate(l.check_in)} → ${fmtDate(l.check_out)} · ${l.nights} night${l.nights>1?'s':''} · ` +
-      `${eur(l.min_per_night)}–${eur(l.max_per_night)}/night` +
-      (l.radius_m ? ` · ${l.radius_m}m zones` : ' · whole locality') + `</span>` +
-      `<span class="pill ${thin?'warn':'ok'}">${l.in_band_count} in band</span>` +
-      (l.below_band_count ? `<span class="pill">${l.below_band_count} below band</span>` : '') +
-      (l.requires ? `<span class="pill">needs ${esc(l.requires)}</span>` : '') +
-      `</div>`;
-
-    if (!rows.length) return `<div class="card legcard">${head}<div class="empty">No candidates yet — ` +
-      `the source publishes little inventory for these dates this far out.</div></div>`;
-
-    const body = rows.map(r => {
-      const flags = [
-        r.breakfast_included === true ? 'breakfast' : null,
-        r.has_ac === true ? 'AC' : (r.has_ac === false ? 'no AC' : null),
-        r.has_parking === true ? 'parking' : null,
-      ].filter(Boolean).join(' · ');
-      return `<tr>` +
-        `<td>${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.hotel_name)}</a>`
-                      : esc(r.hotel_name)}` +
-          `<br><span class="flag">${esc(flags || '—')}</span></td>` +
-        `<td class="num${r.band_status==='below_band'?' below':''}">${eur(r.price_per_night_eur)}` +
-          `<br><span class="flag muted">${r.band_status==='below_band'?'below band':'in band'}</span></td>` +
-        `<td class="num">${eur(r.total_stay_eur)}</td>` +
-        `<td>${r.nearest_zone ? esc(r.nearest_zone) : '<span class="muted">—</span>'}` +
-          `<br><span class="flag muted">${r.distance_to_zone_m != null ? Math.round(r.distance_to_zone_m)+' m' : ''}</span></td>` +
-        `<td class="num">${r.rating ? r.rating.toFixed(1) : '—'}` +
-          `<br><span class="flag ${r.low_confidence ? 'thin' : 'muted'}"` +
-          `${r.low_confidence ? ' title="Few reviews — treat this rating as weak evidence"' : ''}>` +
-          `${r.review_count ? r.review_count.toLocaleString('en-US') : '0'} rev` +
-          `${r.low_confidence ? ' ⚠' : ''}</span></td>` +
-        `<td class="num">${r.delta_vs_last_run_pct == null ? '<span class="muted">—</span>'
-            : (r.delta_vs_last_run_pct === 0 ? '0%'
-              : `<span style="color:${r.delta_vs_last_run_pct < 0 ? 'var(--good)' : 'var(--critical)'}">${
-                  r.delta_vs_last_run_pct > 0 ? '+' : ''}${r.delta_vs_last_run_pct}%</span>`)}</td>` +
-        `</tr>`;
-    }).join('');
-
-    return `<div class="card legcard">${head}<div class="scroll"><table>` +
-      `<thead><tr><th>Property</th><th class="num">Per night</th><th class="num">Stay total</th>` +
-      `<th>Nearest zone</th><th class="num">Rating</th><th class="num">Δ last run</th></tr></thead>` +
-      `<tbody>${body}</tbody></table></div>` +
-      (l.candidates.length > rows.length
-        ? `<p class="note">Showing ${rows.length} of ${l.candidates.length} tracked.</p>` : '') +
-      `</div>`;
+  document.getElementById('tb').innerHTML=rows.map(r=>{
+    const fl=[r.breakfast_included===true?'breakfast':null,
+              r.has_ac===true?'AC':(r.has_ac===false?'no AC':null),
+              r.has_parking===true?'parking':null].filter(Boolean).join(' · ');
+    return `<tr class="${r.preference==='liked'?'liked':''}">`+
+      `<td>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.hotel_name)}</a>`
+            :esc(r.hotel_name)}${r.preference==='liked'?'<span class="pill good">your pick</span>':''}`+
+        `<br><span class="flag">${esc(fl||'—')}</span></td>`+
+      `<td><span class="swatch" style="background:var(${SER[r.leg_id-1]})"></span>${esc(r.city)}</td>`+
+      `<td class="num${r.band_status==='below_band'?' below':''}">${eur(r.price_per_night_eur)}`+
+        `<br><span class="flag muted">${r.band_status==='below_band'?'below':'in band'}</span></td>`+
+      `<td class="num">${eur(r.total_stay_eur)}<br><span class="flag muted">${r.nights}n</span></td>`+
+      `<td>${r.nearest_zone?esc(r.nearest_zone):'<span class="muted">—</span>'}`+
+        `<br><span class="flag muted">${r.distance_to_zone_m!=null?Math.round(r.distance_to_zone_m)+' m':''}</span></td>`+
+      `<td class="num">${r.rating?r.rating.toFixed(1):'—'}<br>`+
+        `<span class="flag ${r.low_confidence?'thin':'muted'}">${(r.review_count||0).toLocaleString('en-US')} rev`+
+        `${r.low_confidence?' ⚠':''}</span></td>`+
+      `<td class="num">${r.delta_vs_last_run_pct==null?'<span class="muted">—</span>':
+         (r.delta_vs_last_run_pct===0?'0%':`<span style="color:${r.delta_vs_last_run_pct<0?'var(--good)':'var(--critical)'}">`+
+         `${r.delta_vs_last_run_pct>0?'+':''}${r.delta_vs_last_run_pct}%</span>`)}</td></tr>`;
   }).join('');
 }
 
-let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => DATA && drawChart(DATA), 180); });
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => DATA && drawChart(DATA));
+function drawChart(d){
+  const svg=document.getElementById('chart');
+  const legs=d.legs.filter(l=>(d.series[String(l.leg_id)]||[]).length>0);
+  const pts=legs.reduce((a,l)=>a+d.series[String(l.leg_id)].length,0);
+  document.getElementById('legend').innerHTML=legs.map(l=>
+    `<span><i class="swatch" style="background:var(${SER[l.leg_id-1]})"></i>${esc(l.city)}</span>`).join('');
+  if(pts<2){svg.setAttribute('height',0);
+    document.getElementById('chartnote').textContent=`Only ${d.cycles} cycles so far — the trend needs at least two points per leg.`;return;}
+  const W=Math.max(560,(svg.parentElement.clientWidth||900)-2),H=280,M={t:14,r:16,b:26,l:46};
+  const all=legs.flatMap(l=>d.series[String(l.leg_id)]);
+  const ts=all.map(p=>new Date(p[0]).getTime()),vs=all.map(p=>p[1]);
+  const t0=Math.min(...ts),t1=Math.max(...ts),v0=Math.min(...vs),v1=Math.max(...vs);
+  const pad=Math.max(8,(v1-v0)*.15),lo=Math.max(0,v0-pad),hi=v1+pad;
+  const X=t=>M.l+(t1===t0?0:(t-t0)/(t1-t0))*(W-M.l-M.r);
+  const Y=v=>M.t+(1-(v-lo)/(hi-lo))*(H-M.t-M.b);
+  let g='';
+  for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,y=Y(v);
+    g+=`<line x1="${M.l}" y1="${y}" x2="${W-M.r}" y2="${y}" stroke="${cssv('--grid')}"/>`;
+    g+=`<text x="${M.l-8}" y="${y+4}" text-anchor="end" font-size="11" fill="${cssv('--muted')}">${eur(v)}</text>`;}
+  g+=`<line x1="${M.l}" y1="${H-M.b}" x2="${W-M.r}" y2="${H-M.b}" stroke="${cssv('--axis')}"/>`;
+  [t0,t1].forEach((t,i)=>{g+=`<text x="${X(t)}" y="${H-M.b+17}" text-anchor="${i?'end':'start'}" font-size="11" fill="${cssv('--muted')}">${
+    new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</text>`;});
+  legs.forEach(l=>{const col=cssv(SER[l.leg_id-1]);
+    const P=d.series[String(l.leg_id)].map(p=>[X(new Date(p[0]).getTime()),Y(p[1]),p[1],p[0]]).sort((a,b)=>a[0]-b[0]);
+    if(P.length>1)g+=`<polyline fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${P.map(p=>p[0]+','+p[1]).join(' ')}"/>`;
+    P.forEach(p=>{g+=`<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${col}" stroke="${cssv('--surface-1')}" stroke-width="2"><title>${esc(l.city)} — ${eur(p[2])}/night, ${new Date(p[3]).toLocaleString('en-GB')}</title></circle>`;});
+    const last=P[P.length-1],lh=last[0]<(M.l+W-M.r)/2;
+    g+=`<text x="${lh?Math.min(last[0]+9,W-M.r):Math.max(last[0]-9,M.l)}" y="${Math.max(last[1]-10,M.t+9)}" text-anchor="${lh?'start':'end'}" font-size="11" fill="${cssv('--text-secondary')}">${esc(l.city)}</text>`;});
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('width','100%');svg.setAttribute('height',H);
+  svg.innerHTML=g;
+  document.getElementById('chartn').textContent=`· ${pts} observations`;
+  document.getElementById('chartnote').textContent='Cheapest in-band option per cycle. Anchors rotate between cycles, so the sampled set changes run to run.';
+}
+
+function drawAlerts(d){
+  const L={price_drop:'drop',new_in_band:'new',left_band:'left band',thin_inventory:'thin'};
+  const C={price_drop:'drop',thin_inventory:'thin2'};
+  document.getElementById('an').textContent=`· ${d.alerts.length}`;
+  document.getElementById('alerts').innerHTML=d.alerts.length?d.alerts.map(a=>{
+    const city=(d.legs.find(l=>l.leg_id===a.leg_id)||{}).city||'';
+    return `<div class="alert"><span class="t ${C[a.type]||''}">${esc(L[a.type]||a.type)}</span>`+
+      `<span><strong>${esc(a.hotel_name||city)}</strong> <span class="muted">${esc(a.hotel_name?city:'')}</span>`+
+      `<br><span class="flag">${esc(a.detail)}</span></span></div>`;}).join(''):'<div class="empty">No alerts.</div>';
+}
+let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(()=>DATA&&drawChart(DATA),180)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>DATA&&drawChart(DATA));
 </script>
 </body>
 </html>

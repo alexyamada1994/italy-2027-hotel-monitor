@@ -176,3 +176,14 @@ MIN_IN_BAND_OPTIONS = 3
 ALERT_DROP_PCT = 8.0          # vs 7-day moving average
 DETAIL_TRIGGER_DELTA_PCT = 10.0
 TIEBREAK_WINDOW_EUR = 10.0    # options within +/- this are ranked by amenities
+
+# Pages fetched per leg per cycle. A page is 20 properties and one credit,
+# and page N is only reachable via page N-1's token, so this multiplies cost
+# directly: 2 pages x 6 legs = 12 credits/cycle. Override per run with --pages.
+PAGES_PER_LEG = 2
+
+# Query every zone anchor each cycle instead of rotating one per cycle.
+# Rotation left most properties invisible for several cycles running; a sweep
+# reaches anything near any centroid in a single run. Cost is
+# (anchors x pages) per leg = 30 credits/cycle at 2 pages.
+SWEEP_ALL_ANCHORS = True

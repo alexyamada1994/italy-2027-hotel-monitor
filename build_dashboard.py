@@ -12,7 +12,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-from monitor import config, core, state
+from monitor import config, core, prefs, state
 
 DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
 OUT_PATH = os.path.join(DOCS_DIR, "data.json")
@@ -38,12 +38,28 @@ def _load_runs():
     return runs
 
 
+def _dedupe_alerts(alerts):
+    """One entry per (hotel, alert type), most recent kept.
+
+    The raw feed repeats the same property every time an anchor resurfaces it,
+    which is what made the listing look like it was echoing names.
+    """
+    seen = {}
+    for a in alerts:
+        if prefs.verdict(a.get("leg_id"), a.get("hotel_name")) == "disliked":
+            continue
+        seen[(a.get("type"), core.identity(a.get("leg_id"), a.get("hotel_name") or ""))] = a
+    return sorted(seen.values(), key=lambda a: a.get("run_ts") or "", reverse=True)[:40]
+
+
 def _current(row, now=None):
     """A row still worth showing: meets today's rating floor and was seen
     recently. History keeps everything; the dashboard shows what is current."""
     if (row.get("rating") or 0) < config.MIN_RATING:
         return False
     if core.is_excluded_property(row.get("hotel_name")):
+        return False
+    if row.get("preference") == "disliked":
         return False
     seen = row.get("last_seen")
     if not seen:
@@ -67,14 +83,20 @@ def build():
         for leg in run.get("legs", []):
             lid = leg["leg_id"]
             for row in leg.get("results", []):
-                key = f"{lid}:{row['hotel_id']}"
+                # Keyed on stable identity, not property_token: the same hotel
+                # arrives under different tokens from different anchors, which
+                # is what put duplicate rows in the listing.
+                key = core.identity(lid, row["hotel_name"])
                 # Derive low_confidence rather than trusting the stored value:
                 # rows recorded before the field existed would otherwise read
                 # as well-evidenced and outrank properly flagged ones.
                 latest[key] = dict(
                     row, leg_id=lid, last_seen=ts, query=leg.get("query"),
                     low_confidence=(row.get("review_count") or 0)
-                    < config.MIN_REVIEWS_FOR_CONFIDENCE)
+                    < config.MIN_REVIEWS_FOR_CONFIDENCE,
+                    # Derived, not trusted: rows predate the field, and a
+                    # judgement added today must apply to old observations.
+                    preference=prefs.verdict(lid, row.get("hotel_name")))
             # One point per leg per cycle: the best in-band price on offer.
             band = [r["price_per_night_eur"] for r in leg.get("results", [])
                     if r["band_status"] == "in_band"]
@@ -137,7 +159,7 @@ def build():
         "trip_total_partial": not trip_complete,
         "legs": legs_out,
         "series": series,
-        "alerts": alerts[-60:][::-1],
+        "alerts": _dedupe_alerts(alerts),
         "errors": last_run.get("errors", []),
     }
 

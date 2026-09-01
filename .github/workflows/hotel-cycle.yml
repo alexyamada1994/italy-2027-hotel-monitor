@@ -2,11 +2,11 @@ name: hotel-monitor
 
 on:
   schedule:
-    # Every 12h, uniform. GitHub cron resets daily, so "every 10 hours" is not
-    # expressible: `0 */10 * * *` fires at 00/10/20 UTC — 3 runs/day, ~91
-    # cycles/month, 546 credits, over the 500 cap. 12h gives 2 runs/day
-    # (~61 cycles, ~366 credits) with headroom for manual runs and retries.
-    - cron: "0 2,14 * * *"
+    # Every 2 days. A full sweep queries all 15 zone anchors x 2 pages = 30
+    # credits, which buys complete coverage of every centroid in one run
+    # (rotation left most properties unobserved for cycles at a time).
+    # 15 sweeps/month x 30 = 450 credits, inside the 500 cap with headroom.
+    - cron: "0 3 */2 * *"
   workflow_dispatch:        # manual run
 
 # Never let two cycles interleave: they would race on state/ and double-charge

@@ -18,16 +18,37 @@ from monitor import config, core, state
 from monitor.source import QuotaExhausted, ScrappaClient, SourceError
 
 
-def _anchor_for(leg, cycle_index):
-    """Rotate the zone anchor across cycles so every centroid is sampled
-    over time while each leg still costs exactly one listing per run."""
-    anchors = leg["anchors"]
-    return anchors[cycle_index % len(anchors)]
+def _anchors_for(leg, cycle_index):
+    """Which anchors to query this cycle.
+
+    Sweep mode queries every centroid each cycle, so a property near any zone
+    is reachable in a single run. Rotation mode queries one, which is cheaper
+    per cycle but means a hotel can stay invisible for several cycles -- that
+    is what kept most judged properties unobserved.
+    """
+    if config.SWEEP_ALL_ANCHORS:
+        return list(leg["anchors"])
+    return [leg["anchors"][cycle_index % len(leg["anchors"])]]
 
 
-def run_cycle(dry_run=False):
+def _sweep(client, leg, anchors, pages):
+    """All anchors for one leg, de-duplicated by property_token."""
+    merged, seen = [], set()
+    for anchor in anchors:
+        for prop in client.search_pages(anchor, leg["check_in"], leg["check_out"], pages=pages):
+            tok = prop.get("property_token")
+            if tok and tok in seen:
+                continue
+            if tok:
+                seen.add(tok)
+            merged.append(prop)
+    return merged
+
+
+def run_cycle(dry_run=False, pages=None):
     now = datetime.now(timezone.utc)
     run_ts = now.isoformat()
+    pages = pages or config.PAGES_PER_LEG
 
     ledger = state.CreditLedger(config.MONTHLY_CREDITS)
     snapshot = state.load_snapshot()
@@ -54,11 +75,12 @@ def run_cycle(dry_run=False):
         })
         return run
 
-    if ledger.remaining < config.MIN_CREDITS_FOR_CYCLE:
+    cycle_cost = sum(len(_anchors_for(l, cycle_index)) for l in config.LEGS) * pages
+    if ledger.remaining < cycle_cost:
         run["errors"].append({
             "leg_id": 0,
             "message": f"quota_exhausted: {ledger.remaining} credits remaining, "
-                       f"{config.MIN_CREDITS_FOR_CYCLE} needed for a full cycle; cycle skipped",
+                       f"{cycle_cost} needed for a full cycle; cycle skipped",
         })
         return run
 
@@ -69,13 +91,14 @@ def run_cycle(dry_run=False):
     new_snapshot = dict(snapshot)
 
     for leg in config.LEGS:
-        anchor = _anchor_for(leg, cycle_index)
+        anchors = _anchors_for(leg, cycle_index)
         leg_out = {
             "leg_id": leg["leg_id"],
             "city": leg["city"],
             "check_in": leg["check_in"],
             "check_out": leg["check_out"],
-            "query": anchor,
+            "query": ", ".join(anchors),
+            "pages": pages,
             "results": [],
             "excluded": [],
         }
@@ -85,7 +108,7 @@ def run_cycle(dry_run=False):
             continue
 
         try:
-            props = client.search(anchor, leg["check_in"], leg["check_out"])
+            props = _sweep(client, leg, anchors, pages)
         except QuotaExhausted as exc:
             # Nothing left to spend: stop issuing calls but keep what we have.
             run["errors"].append({"leg_id": leg["leg_id"],
@@ -112,7 +135,8 @@ def run_cycle(dry_run=False):
             core.detect_alerts(leg, results, leg_out["excluded"], snapshot, now))
 
         for r in results:
-            new_snapshot[f"{leg['leg_id']}:{r['hotel_id']}"] = {
+            new_snapshot[core.identity(leg["leg_id"], r["hotel_name"])] = {
+                "hotel_id": r["hotel_id"],
                 "hotel_name": r["hotel_name"],
                 "price_per_night_eur": r["price_per_night_eur"],
                 "rate_name": r["rate_name"],
@@ -143,10 +167,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true",
                     help="plan the cycle without spending credits")
+    ap.add_argument("--pages", type=int, default=None,
+                    help="pages per leg this run (each page costs one credit "
+                         "per leg); overrides config.PAGES_PER_LEG")
     args = ap.parse_args()
 
     try:
-        run = run_cycle(dry_run=args.dry_run)
+        run = run_cycle(dry_run=args.dry_run, pages=args.pages)
     except SourceError as exc:
         print(json.dumps({"errors": [{"leg_id": 0, "message": str(exc)}]}), flush=True)
         return 1

@@ -3,10 +3,22 @@
 import re
 from datetime import datetime, timedelta, timezone
 
-from . import config, geo
+from . import config, geo, prefs
 
 _EXCLUDE_RE = re.compile("|".join(config.EXCLUDE_NAME_PATTERNS), re.IGNORECASE) \
     if config.EXCLUDE_NAME_PATTERNS else None
+
+
+def identity(leg_id, hotel_name):
+    """Stable per-leg identity for a property.
+
+    NOT the property_token: Google issues a different token for the same hotel
+    depending on which query surfaced it (Residence Ca' Foscolo was seen under
+    three). Keying on the token made one hotel look like several -- duplicate
+    rows in the listing, repeated "new hotel" alerts, and lost price deltas.
+    The normalised name is stable across queries.
+    """
+    return f"{leg_id}:{prefs.normalise(hotel_name)}"
 
 
 def is_excluded_property(name):
@@ -92,11 +104,12 @@ def classify(per_night, leg):
     return "in_band"
 
 
-def seven_day_average(history, leg_id, hotel_id, now):
+def seven_day_average(history, leg_id, hotel_name, now):
     cutoff = now - timedelta(days=7)
+    key = prefs.normalise(hotel_name)
     vals = [
         r["price_per_night_eur"] for r in history
-        if r.get("leg_id") == leg_id and r.get("hotel_id") == hotel_id
+        if r.get("leg_id") == leg_id and prefs.normalise(r.get("hotel_name")) == key
         and r.get("price_per_night_eur") is not None
         and _parse_ts(r.get("run_ts")) is not None
         and _parse_ts(r["run_ts"]) >= cutoff
@@ -131,6 +144,12 @@ def build_result(prop, leg, snapshot, history, now):
         return None, {"hotel_id": hotel_id, "hotel_name": name,
                       "price_per_night_eur": 0.0, "band_status": None,
                       "reason": "hostel (excluded property type)"}
+
+    pref = prefs.verdict(leg["leg_id"], name)
+    if pref == "disliked":
+        return None, {"hotel_id": hotel_id, "hotel_name": name,
+                      "price_per_night_eur": 0.0, "band_status": None,
+                      "reason": "rejected by explicit preference"}
 
     per_night, total_stay, city_tax = normalise_price(prop, leg)
     if per_night is None:
@@ -174,10 +193,10 @@ def build_result(prop, leg, snapshot, history, now):
     # endpoint, so it can never be verified from this source.
     unverified.append("free_cancellation")
 
-    key = f"{leg['leg_id']}:{hotel_id}"
+    key = identity(leg["leg_id"], name)
     prev = snapshot.get(key) or {}
     prev_price = prev.get("price_per_night_eur")
-    avg7 = seven_day_average(history, leg["leg_id"], hotel_id, now)
+    avg7 = seven_day_average(history, leg["leg_id"], name, now)
 
     row = {
         "hotel_id": hotel_id,
@@ -201,6 +220,7 @@ def build_result(prop, leg, snapshot, history, now):
         "rating": prop.get("overall_rating") or 0.0,
         "review_count": prop.get("reviews") or 0,
         "low_confidence": (prop.get("reviews") or 0) < config.MIN_REVIEWS_FOR_CONFIDENCE,
+        "preference": pref,
         "url": prop.get("link") or "",
         "band_status": band,
         "detail_checked_at": None,
@@ -212,11 +232,13 @@ def build_result(prop, leg, snapshot, history, now):
 
 
 def rank(results):
-    """Cheapest first; inside a +/- EUR 10 window prefer breakfast, then AC,
-    then well-evidenced ratings over thinly-reviewed ones, then rating."""
+    """Liked properties first, then cheapest; inside a +/- EUR 10 window prefer
+    breakfast, then AC, then well-evidenced ratings, then rating."""
     def key(r):
         bucket = round(r["price_per_night_eur"] / config.TIEBREAK_WINDOW_EUR)
-        return (bucket,
+        # A property you explicitly liked outranks every heuristic.
+        return (0 if r.get("preference") == "liked" else 1,
+                bucket,
                 0 if r["breakfast_included"] else 1,
                 0 if r["has_ac"] else 1,
                 1 if r.get("low_confidence") else 0,
@@ -237,7 +259,7 @@ def detect_alerts(leg, results, excluded, snapshot, now):
     in_band = [r for r in results if r["band_status"] == "in_band"]
 
     for r in in_band:
-        key = f"{leg['leg_id']}:{r['hotel_id']}"
+        key = identity(leg["leg_id"], r["hotel_name"])
         was_tracked = key in snapshot
 
         d7 = r["delta_vs_7d_avg_pct"]
@@ -265,17 +287,18 @@ def detect_alerts(leg, results, excluded, snapshot, now):
 
     # Tracked hotel that left the band upwards. Above-band properties are not
     # in `results` by design, so this reads the exclusion list.
-    gone_above = {e["hotel_id"]: e for e in excluded
-                  if e.get("band_status") == "above_band" and e.get("hotel_id")}
+    gone_above = {identity(leg["leg_id"], e["hotel_name"]): e for e in excluded
+                  if e.get("band_status") == "above_band" and e.get("hotel_name")}
     for key, prev in snapshot.items():
-        pleg, _, phid = key.partition(":")
-        if int(pleg) != leg["leg_id"] or prev.get("band_status") != "in_band":
+        pleg, _, _rest = key.partition(":")
+        if not pleg.isdigit() or int(pleg) != leg["leg_id"] \
+                or prev.get("band_status") != "in_band":
             continue
-        now_row = gone_above.get(phid)
+        now_row = gone_above.get(key)
         if now_row is not None:
             alerts.append({
                 "type": "left_band", "leg_id": leg["leg_id"],
-                "hotel_id": phid, "hotel_name": prev.get("hotel_name", ""),
+                "hotel_id": prev.get("hotel_id"), "hotel_name": prev.get("hotel_name", ""),
                 "detail": f"in_band -> above_band at EUR {now_row['price_per_night_eur']}/night",
             })
 

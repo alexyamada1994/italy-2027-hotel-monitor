@@ -1,0 +1,15 @@
+{
+  "_comment": "Explicit human judgements. Matched on normalised name, because the same property can carry a different property_token per query and some entries have not been observed yet. Disliked properties are dropped from results; liked ones are pinned to the top of their leg.",
+  "liked": {
+    "1": ["Bramble Luxury Suites", "Hotel Piazza di Spagna", "Excellent Trinity Rooms"],
+    "2": ["Guicciardini24", "La Dimora degli Angeli", "Palazzina Fusi", "Residenza Giotto",
+          "Hotel Perseo", "Hotel della Signoria", "Lunaria Suites", "Salterelli House"],
+    "3": ["Residence Ca' Foscolo", "40.17 San Marco", "Ca 'dei Dogi", "Hotel Montecarlo"],
+    "6": ["Scarlatti Hotel Milano", "Midway", "Binario Verticale", "INNSiDE by Melia Milano Torre GalFa"]
+  },
+  "disliked": {
+    "1": ["Charming Loft in Via Frattina", "Mater Rooms&Suites Guest House", "Domus Fontis", "Dante's Hell"],
+    "3": ["Santa Margherita Guesthouse Venezia", "Hotel San Gallo", "carbonaia venezia", "Hotel Al Codega"],
+    "6": ["Residence De La Gare"]
+  }
+}
