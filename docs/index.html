@@ -59,6 +59,22 @@
     color:var(--text-secondary);white-space:nowrap;margin-left:6px}
   .pill.good{color:var(--good);border-color:var(--good)}
   .scroll{overflow-x:auto}
+  /* Table and map side by side; the map sticks so it stays visible while
+     paging. Below 920px they stack and the map releases its sticky position. */
+  .split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;align-items:start}
+  @media (max-width:920px){.split{grid-template-columns:1fr}.mapwrap{position:static}}
+  .mapwrap{position:sticky;top:66px}
+  #map{height:566px;width:100%}
+  .pager{display:flex;align-items:center;gap:8px;padding:11px 2px 0;font-size:13.5px;
+    color:var(--text-secondary);flex-wrap:wrap}
+  .pager button{font:inherit;font-size:13.5px;color:var(--text-primary);background:var(--surface-1);
+    border:1px solid var(--border);border-radius:7px;padding:5px 11px;cursor:pointer}
+  .pager button:disabled{opacity:.38;cursor:default}
+  .pager .pages{display:flex;gap:4px;flex-wrap:wrap}
+  .pager .pages button.on{border-color:var(--s1);color:var(--s1);font-weight:600}
+  tbody tr{cursor:pointer}
+  tbody tr:hover td{background:color-mix(in srgb,var(--s1) 7%,transparent)}
+  tbody tr.liked:hover td{background:color-mix(in srgb,var(--good) 13%,transparent)}
   .legend{display:flex;flex-wrap:wrap;gap:13px;font-size:13px;margin-bottom:8px;color:var(--text-secondary)}
   .empty{color:var(--muted);font-size:14px;padding:14px 0;text-align:center}
   details summary{cursor:pointer;font-size:14px;color:var(--text-secondary);padding:2px 0}
@@ -90,25 +106,29 @@
     <label class="chk"><input type="checkbox" id="bfonly"> Breakfast</label>
     <span class="count" id="count"></span>
   </div>
-  <div class="card scroll" style="border-radius:0 0 10px 10px;border-top:0">
-    <table id="tbl"><thead><tr>
-      <th data-k="hotel_name">Property</th>
-      <th data-k="city">City</th>
-      <th data-k="price_per_night_eur" class="num">Per night</th>
-      <th data-k="total_stay_eur" class="num">Stay</th>
-      <th data-k="distance_to_zone_m">Zone</th>
-      <th data-k="rating" class="num">Rating</th>
-      <th data-k="delta_vs_last_run_pct" class="num">Δ run</th>
-    </tr></thead><tbody id="tb"></tbody></table>
-    <div class="empty" id="none" hidden>No hotels match these filters.</div>
+  <div class="split">
+    <div>
+      <div class="card scroll" style="border-radius:0 0 10px 10px;border-top:0">
+        <table id="tbl"><thead><tr>
+          <th data-k="hotel_name">Property</th>
+          <th data-k="city">City</th>
+          <th data-k="price_per_night_eur" class="num">Per night</th>
+          <th data-k="total_stay_eur" class="num">Stay</th>
+          <th data-k="distance_to_zone_m">Zone</th>
+          <th data-k="rating" class="num">Rating</th>
+          <th data-k="delta_vs_last_run_pct" class="num">Δ run</th>
+        </tr></thead><tbody id="tb"></tbody></table>
+        <div class="empty" id="none" hidden>No hotels match these filters.</div>
+      </div>
+      <div class="pager" id="pager"></div>
+    </div>
+    <aside class="mapwrap">
+      <div class="card" style="padding:0;overflow:hidden"><div id="map"></div></div>
+      <p class="flag muted" style="margin:8px 0 0">Solid pins are this page, faded are the rest
+         of the match. Dashed circles are your target zones. Click a row or a pin for the
+         booking link. <span id="mapn"></span></p>
+    </aside>
   </div>
-
-  <h2>Map <span class="n" id="mapn"></span></h2>
-  <div class="card" style="padding:0;overflow:hidden">
-    <div id="map" style="height:440px;width:100%"></div>
-  </div>
-  <p class="flag muted" style="margin:8px 0 0">Markers follow the filters above.
-     Dashed circles are your target zones. Click a marker for the booking link.</p>
 
   <h2>Best in-band price per leg <span class="n" id="chartn"></span></h2>
   <div class="card">
@@ -135,6 +155,8 @@ const fmtD=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?`${+m[3]
 const fold=s=>(s||'').normalize('NFKD').replace(/[̀-ͯ]/g,'').toLowerCase();
 
 let DATA=null, ROWS=[], sortKey='price_per_night_eur', sortDir=1;
+const PER_PAGE=12;
+let page=1, MARKERS={};
 
 fetch('data.json?'+Date.now()).then(r=>r.ok?r.json():Promise.reject(r.status))
   .then(d=>{DATA=d;boot(d)})
@@ -148,7 +170,8 @@ function boot(d){
 
   // flatten every leg into one searchable list — the whole point of the rebuild
   ROWS=d.legs.flatMap(l=>l.candidates.map(c=>({...c,city:l.city,leg_id:l.leg_id,
-      nights:l.nights,_hay:fold(c.hotel_name+' '+(c.nearest_zone||'')+' '+l.city)})));
+      nights:l.nights,_key:l.leg_id+':'+fold(c.hotel_name),
+      _hay:fold(c.hotel_name+' '+(c.nearest_zone||'')+' '+l.city)})));
 
   const sel=document.getElementById('city');
   sel.innerHTML='<option value="">All cities</option>'+
@@ -170,12 +193,14 @@ function boot(d){
       `${d.credits_remaining_month??'—'} left this month`,cp,cp>85?'var(--critical)':'var(--s1)'),
   ].join('');
 
+  // Any filter change returns to page 1: staying on page 4 of a result set that
+  // just shrank to one page is disorienting.
   ['q','city','band','likedonly','bfonly'].forEach(id=>
-    document.getElementById(id).addEventListener('input',draw));
+    document.getElementById(id).addEventListener('input',()=>{page=1;draw();}));
   document.querySelectorAll('#tbl thead th').forEach(th=>th.addEventListener('click',()=>{
     const k=th.dataset.k;
     if(k===sortKey) sortDir=-sortDir; else {sortKey=k;sortDir=(k==='rating')?-1:1;}
-    draw();
+    page=1; draw();
   }));
 
   initMap(d); draw(); drawChart(d); drawAlerts(d);
@@ -214,16 +239,27 @@ function draw(){
 
   document.getElementById('count').textContent=`${rows.length} of ${ROWS.length}`;
   document.getElementById('hn').textContent='';
-  document.getElementById('none').hidden=rows.length>0;
   document.querySelectorAll('#tbl thead th').forEach(th=>
     th.classList.toggle('sorted',th.dataset.k===sortKey));
 
-  drawMap(rows);
-  document.getElementById('tb').innerHTML=rows.map(r=>{
+  // Paginate. Clamp rather than reset, so re-sorting keeps you roughly in place
+  // while a narrowed filter cannot strand you past the last page.
+  const pageCount=Math.max(1,Math.ceil(rows.length/PER_PAGE));
+  if(page>pageCount) page=pageCount;
+  if(page<1) page=1;
+  const slice=rows.slice((page-1)*PER_PAGE,page*PER_PAGE);
+
+  document.getElementById('none').hidden=rows.length>0;
+  drawPager(rows.length,pageCount);
+  // The map shows every match, with this page emphasised — paging never hides
+  // a hotel from the map, it just changes which pins are foregrounded.
+  drawMap(rows,slice);
+
+  document.getElementById('tb').innerHTML=slice.map(r=>{
     const fl=[r.breakfast_included===true?'breakfast':null,
               r.has_ac===true?'AC':(r.has_ac===false?'no AC':null),
               r.has_parking===true?'parking':null].filter(Boolean).join(' · ');
-    return `<tr class="${r.preference==='liked'?'liked':''}">`+
+    return `<tr class="${r.preference==='liked'?'liked':''}" data-id="${esc(r._key)}">`+
       `<td>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.hotel_name)}</a>`
             :esc(r.hotel_name)}${r.preference==='liked'?'<span class="pill good">your pick</span>':''}`+
         `<br><span class="flag">${esc(fl||'—')}</span></td>`+
@@ -240,6 +276,39 @@ function draw(){
          (r.delta_vs_last_run_pct===0?'0%':`<span style="color:${r.delta_vs_last_run_pct<0?'var(--good)':'var(--critical)'}">`+
          `${r.delta_vs_last_run_pct>0?'+':''}${r.delta_vs_last_run_pct}%</span>`)}</td></tr>`;
   }).join('');
+
+  // Clicking a row focuses its pin. The property-name link keeps its own
+  // behaviour, so this never hijacks a click meant for the booking page.
+  document.querySelectorAll('#tb tr').forEach(tr=>tr.addEventListener('click',ev=>{
+    if(ev.target.closest('a')) return;
+    focusMarker(tr.dataset.id);
+  }));
+}
+
+function drawPager(total,pageCount){
+  const el=document.getElementById('pager');
+  if(total<=PER_PAGE){el.innerHTML='';return;}
+  const from=(page-1)*PER_PAGE+1, to=Math.min(page*PER_PAGE,total);
+  // Window the page buttons so a 40-page result does not print 40 buttons.
+  const win=[]; const lo=Math.max(1,page-2), hi=Math.min(pageCount,page+2);
+  if(lo>1) win.push(1);
+  if(lo>2) win.push('…');
+  for(let i=lo;i<=hi;i++) win.push(i);
+  if(hi<pageCount-1) win.push('…');
+  if(hi<pageCount) win.push(pageCount);
+
+  el.innerHTML=`<button id="prev" ${page===1?'disabled':''}>‹ Prev</button>`+
+    `<span class="pages">`+win.map(p=>p==='…'
+      ? `<span class="muted" style="padding:5px 2px">…</span>`
+      : `<button data-p="${p}" class="${p===page?'on':''}">${p}</button>`).join('')+`</span>`+
+    `<button id="next" ${page===pageCount?'disabled':''}>Next ›</button>`+
+    `<span class="muted" style="margin-left:auto">${from}–${to} of ${total}</span>`;
+
+  const go=p=>{page=p;draw();
+    document.querySelector('.controls').scrollIntoView({block:'nearest',behavior:'smooth'});};
+  el.querySelector('#prev')?.addEventListener('click',()=>go(page-1));
+  el.querySelector('#next')?.addEventListener('click',()=>go(page+1));
+  el.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>go(+b.dataset.p)));
 }
 
 let MAP=null, LAYER=null, ZONES=null;
@@ -257,17 +326,31 @@ function initMap(d){
   }));
 }
 
-function drawMap(rows){
+function focusMarker(key){
+  const m=MARKERS[key];
+  if(!m||!MAP) return;
+  MAP.setView(m.getLatLng(), Math.max(MAP.getZoom(),15), {animate:true});
+  m.openPopup();
+}
+
+function drawMap(rows,pageRows){
   if(!MAP||!LAYER) return;
   LAYER.clearLayers();
+  MARKERS={};
+  const onPage=new Set((pageRows||rows).map(r=>r._key));
   const pts=[];
   rows.forEach(r=>{
     if(r.lat==null||r.lon==null) return;
-    pts.push([r.lat,r.lon]);
+    const here=onPage.has(r._key);
+    if(here) pts.push([r.lat,r.lon]);
     const col=cssv(SER[r.leg_id-1]);
     const liked=r.preference==='liked';
-    const m=L.circleMarker([r.lat,r.lon],{radius:liked?8:6,color:liked?cssv('--good'):col,
-      weight:liked?3:2,fillColor:col,fillOpacity:.85});
+    // Off-page matches stay on the map but recede, so the page you are reading
+    // reads as the foreground without losing the wider picture.
+    const m=L.circleMarker([r.lat,r.lon],{radius:here?(liked?8:6):4,
+      color:liked?cssv('--good'):col,weight:here?(liked?3:2):1,
+      fillColor:col,fillOpacity:here?.85:.28,opacity:here?1:.35});
+    MARKERS[r._key]=m;
     const band=r.band_status==='in_band'?'in band':r.band_status.replace('_',' ');
     m.bindPopup(
       `<div style="font:14px system-ui,sans-serif;min-width:190px">`+
@@ -282,8 +365,9 @@ function drawMap(rows){
       `</div>`);
     m.addTo(LAYER);
   });
-  document.getElementById('mapn').textContent = pts.length
-    ? `· ${pts.length} located` : '· no coordinates yet';
+  const located=rows.filter(r=>r.lat!=null).length;
+  document.getElementById('mapn').textContent = located
+    ? `${located} of ${rows.length} located.` : 'No coordinates yet for this selection.';
   if(pts.length) MAP.fitBounds(L.latLngBounds(pts).pad(.18),{maxZoom:15});
 }
 
