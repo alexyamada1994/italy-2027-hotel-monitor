@@ -116,6 +116,53 @@ In practice they were never competing for a recommendation — the ones seen
 priced at EUR 36–78/night against band floors of EUR 150–220, so they could
 only ever land in `below_band`.
 
+## Preferences
+
+`preferences.json` records explicit human judgements per leg. Disliked
+properties are dropped from results (recorded in `excluded`, so the decision
+stays auditable); liked ones are pinned above every heuristic and badged on the
+dashboard. Matching is on a normalised name, because the same property arrives
+under different tokens from different queries.
+
+No attribute in this feed separates the liked from the disliked -- rating does
+not (Hotel San Gallo rejected at 4.5/662 reviews, Salterelli House liked at
+5.0/3), nor distance, price, or property type. So the judgements are encoded
+literally rather than approximated by a rule.
+
+## Property identity
+
+Identity is `leg_id + normalised name`, **not** `property_token`. Google issues
+a different token for the same hotel depending on which query surfaced it
+(Residence Ca' Foscolo appeared under three). Keying on the token made one
+hotel look like several: 49 of 162 listing rows were duplicates, properties
+re-alerted as "new" under each fresh token, and price deltas were lost because
+the snapshot never matched.
+
+Relatedly, `latest` is updated by above-band observations too. Without that, a
+hotel that rose past the ceiling kept displaying its last in-band price
+indefinitely, and counted toward `in_band` while doing so.
+
+## Coverage
+
+Each cycle sweeps **every** zone anchor (`SWEEP_ALL_ANCHORS`), two pages deep.
+Rotating one anchor per cycle left most properties unobserved for cycles at a
+time -- only 9 of 28 judged properties had ever been seen; a sweep reaches 25.
+
+A page is 20 properties and one credit, and page N is reachable only through
+page N-1's token, so depth multiplies cost directly: 15 anchors x 2 pages = 30
+credits per sweep. At every 2 days that is 15 sweeps x 30 = 450 credits/month.
+
+## Map
+
+The dashboard maps located properties with **Leaflet + OpenStreetMap**, not
+Google Maps: the Google Maps JavaScript API requires an API key with billing
+enabled. Markers follow the active filters, dashed circles show the target
+zones, and each popup carries the property name linked to the booking page the
+price came from.
+
+Coordinates are recorded per observation, so properties last seen before that
+change carry no marker until the next sweep re-observes them.
+
 ## Known behaviour, not bugs
 
 - **Unpriced properties.** Many properties return no price this far out — 17/20

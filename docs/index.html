@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Italy May 2027 — hotel monitor</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
   :root{color-scheme:light;
     --surface-1:#fcfcfb;--plane:#f9f9f7;--text-primary:#0b0b0b;--text-secondary:#52514e;
@@ -82,6 +84,7 @@
       <option value="in_band">In band</option>
       <option value="all">All bands</option>
       <option value="below_band">Below band</option>
+      <option value="above_band">Above band (your picks)</option>
     </select>
     <label class="chk"><input type="checkbox" id="likedonly"> Liked only</label>
     <label class="chk"><input type="checkbox" id="bfonly"> Breakfast</label>
@@ -100,6 +103,13 @@
     <div class="empty" id="none" hidden>No hotels match these filters.</div>
   </div>
 
+  <h2>Map <span class="n" id="mapn"></span></h2>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div id="map" style="height:440px;width:100%"></div>
+  </div>
+  <p class="flag muted" style="margin:8px 0 0">Markers follow the filters above.
+     Dashed circles are your target zones. Click a marker for the booking link.</p>
+
   <h2>Best in-band price per leg <span class="n" id="chartn"></span></h2>
   <div class="card">
     <div class="legend" id="legend"></div>
@@ -113,6 +123,8 @@
 
   <footer id="foot"></footer>
 </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 const SER=['--s1','--s2','--s3','--s4','--s5','--s6'];
 const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -166,7 +178,7 @@ function boot(d){
     draw();
   }));
 
-  draw(); drawChart(d); drawAlerts(d);
+  initMap(d); draw(); drawChart(d); drawAlerts(d);
   document.getElementById('foot').innerHTML=
     `Generated ${new Date(d.generated_at).toLocaleString('en-GB')} · prices include taxes and estimated `+
     `city tax · free cancellation is not published by the source · rejected properties are hidden.`;
@@ -206,6 +218,7 @@ function draw(){
   document.querySelectorAll('#tbl thead th').forEach(th=>
     th.classList.toggle('sorted',th.dataset.k===sortKey));
 
+  drawMap(rows);
   document.getElementById('tb').innerHTML=rows.map(r=>{
     const fl=[r.breakfast_included===true?'breakfast':null,
               r.has_ac===true?'AC':(r.has_ac===false?'no AC':null),
@@ -227,6 +240,51 @@ function draw(){
          (r.delta_vs_last_run_pct===0?'0%':`<span style="color:${r.delta_vs_last_run_pct<0?'var(--good)':'var(--critical)'}">`+
          `${r.delta_vs_last_run_pct>0?'+':''}${r.delta_vs_last_run_pct}%</span>`)}</td></tr>`;
   }).join('');
+}
+
+let MAP=null, LAYER=null, ZONES=null;
+function initMap(d){
+  if(typeof L==='undefined'){document.getElementById('map').innerHTML=
+    '<div class="empty" style="padding:24px">Map library did not load.</div>';return;}
+  MAP=L.map('map',{scrollWheelZoom:false}).setView([44.5,11.5],5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(MAP);
+  ZONES=L.layerGroup().addTo(MAP); LAYER=L.layerGroup().addTo(MAP);
+  d.legs.forEach(l=>(l.zones||[]).forEach(z=>{
+    if(!l.radius_m) return;
+    L.circle([z.lat,z.lon],{radius:l.radius_m,color:cssv(SER[l.leg_id-1]),weight:1,
+      dashArray:'4 4',fill:false,opacity:.55}).bindTooltip(`${z.name} · ${l.radius_m}m`).addTo(ZONES);
+  }));
+}
+
+function drawMap(rows){
+  if(!MAP||!LAYER) return;
+  LAYER.clearLayers();
+  const pts=[];
+  rows.forEach(r=>{
+    if(r.lat==null||r.lon==null) return;
+    pts.push([r.lat,r.lon]);
+    const col=cssv(SER[r.leg_id-1]);
+    const liked=r.preference==='liked';
+    const m=L.circleMarker([r.lat,r.lon],{radius:liked?8:6,color:liked?cssv('--good'):col,
+      weight:liked?3:2,fillColor:col,fillOpacity:.85});
+    const band=r.band_status==='in_band'?'in band':r.band_status.replace('_',' ');
+    m.bindPopup(
+      `<div style="font:14px system-ui,sans-serif;min-width:190px">`+
+      (r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener"><strong>${esc(r.hotel_name)}</strong></a>`
+            :`<strong>${esc(r.hotel_name)}</strong>`)+
+      (liked?' ✓':'')+
+      `<br>${eur(r.price_per_night_eur)}/night · ${band}`+
+      `<br>${esc(r.city)}${r.nearest_zone?' · '+esc(r.nearest_zone):''}`+
+      (r.distance_to_zone_m!=null?` ${Math.round(r.distance_to_zone_m)}m`:'')+
+      (r.rating?`<br>${r.rating.toFixed(1)} ★ (${(r.review_count||0).toLocaleString('en-US')} reviews)`:'')+
+      (r.url?`<br><a href="${esc(r.url)}" target="_blank" rel="noopener">Open booking page →</a>`:'')+
+      `</div>`);
+    m.addTo(LAYER);
+  });
+  document.getElementById('mapn').textContent = pts.length
+    ? `· ${pts.length} located` : '· no coordinates yet';
+  if(pts.length) MAP.fitBounds(L.latLngBounds(pts).pad(.18),{maxZoom:15});
 }
 
 function drawChart(d){

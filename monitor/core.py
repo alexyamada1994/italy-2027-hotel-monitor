@@ -202,6 +202,8 @@ def build_result(prop, leg, snapshot, history, now):
         "hotel_id": hotel_id,
         "hotel_name": name,
         "property_type": prop.get("type"),
+        "lat": (prop.get("gps_coordinates") or {}).get("latitude"),
+        "lon": (prop.get("gps_coordinates") or {}).get("longitude"),
         "nearest_zone": zone,
         "distance_to_zone_m": dist,
         "in_target_zone": in_zone,

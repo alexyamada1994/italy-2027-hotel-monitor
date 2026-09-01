@@ -74,7 +74,7 @@ def _current(row, now=None):
 def build():
     runs = _load_runs()
 
-    latest = {}          # (leg_id, hotel_id) -> most recent full result row
+    latest = {}          # identity -> most recent observation of a property
     series = {}          # leg_id -> [[run_ts, cheapest in-band price], ...]
     alerts = []
 
@@ -97,6 +97,25 @@ def build():
                     # Derived, not trusted: rows predate the field, and a
                     # judgement added today must apply to old observations.
                     preference=prefs.verdict(lid, row.get("hotel_name")))
+            # An above-band observation is still the newest truth about the
+            # price. Without this, a hotel that rose above the ceiling kept
+            # displaying its last in-band price forever -- Ca 'dei Dogi showed
+            # EUR 202 while actually selling at EUR 217. Carry the enriched
+            # fields forward and update price and band.
+            for e in leg.get("excluded", []):
+                if e.get("band_status") != "above_band":
+                    continue
+                nm = e.get("hotel_name") or ""
+                key = core.identity(lid, nm)
+                prev = latest.get(key)
+                if not prev or (prev.get("last_seen") or "") > (ts or ""):
+                    continue
+                latest[key] = dict(prev,
+                                   price_per_night_eur=e.get("price_per_night_eur") or 0.0,
+                                   total_stay_eur=round((e.get("price_per_night_eur") or 0.0)
+                                                        * config.LEGS_BY_ID[lid]["nights"], 2),
+                                   band_status="above_band", last_seen=ts,
+                                   delta_vs_last_run_pct=None)
             # One point per leg per cycle: the best in-band price on offer.
             band = [r["price_per_night_eur"] for r in leg.get("results", [])
                     if r["band_status"] == "in_band"]
@@ -137,6 +156,8 @@ def build():
             "min_per_night": leg["min_per_night"],
             "max_per_night": leg["max_per_night"],
             "radius_m": leg["radius_m"],
+            "zones": [{"name": n, "lat": la, "lon": lo}
+                      for n, (la, lo) in leg["zones"].items()],
             "requires": ("parking" if leg["require_parking"] else
                          "air conditioning" if leg["require_ac"] else None),
             "candidates": rows,
