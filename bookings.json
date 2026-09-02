@@ -1,0 +1,17 @@
+{
+  "_comment": "Confirmed bookings. These are the baseline for their leg: an alternative is only interesting if it beats this price. The booking price also becomes the effective ceiling for the leg, so options between the old band max and the booking stay visible instead of being hidden as above_band. Prices are per night, taxes included, as quoted by the booking. `lat`/`lon` are optional and only used to pin the booking on the map when the monitor has never observed the property itself.",
+  "1": {
+    "hotel_name": "Hotel Modigliani",
+    "price_per_night_eur": 262.58,
+    "booked_on": "2026-09-01",
+    "lat": null,
+    "lon": null
+  },
+  "3": {
+    "hotel_name": "iH Hotels Venezia Salute Palace",
+    "price_per_night_eur": 215.49,
+    "booked_on": "2026-09-01",
+    "lat": null,
+    "lon": null
+  }
+}

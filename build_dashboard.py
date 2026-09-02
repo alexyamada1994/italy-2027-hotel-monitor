@@ -12,7 +12,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-from monitor import config, core, prefs, state
+from monitor import bookings, config, core, prefs, state
 
 DOCS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
 OUT_PATH = os.path.join(DOCS_DIR, "data.json")
@@ -94,9 +94,17 @@ def build():
                     row, leg_id=lid, last_seen=ts, query=leg.get("query"),
                     low_confidence=(row.get("review_count") or 0)
                     < config.MIN_REVIEWS_FOR_CONFIDENCE,
-                    # Derived, not trusted: rows predate the field, and a
-                    # judgement added today must apply to old observations.
-                    preference=prefs.verdict(lid, row.get("hotel_name")))
+                    # Derived, not trusted: rows predate these fields, and a
+                    # judgement or booking added today must apply to old
+                    # observations too.
+                    preference=prefs.verdict(lid, row.get("hotel_name")),
+                    is_booking=bookings.is_booking(lid, row.get("hotel_name")),
+                    vs_booking_pct=bookings.compare(
+                        lid, row.get("price_per_night_eur"),
+                        config.LEGS_BY_ID[lid]["nights"])[0],
+                    saving_vs_booking_eur=bookings.compare(
+                        lid, row.get("price_per_night_eur"),
+                        config.LEGS_BY_ID[lid]["nights"])[1])
             # An above-band observation is still the newest truth about the
             # price. Without this, a hotel that rose above the ceiling kept
             # displaying its last in-band price forever -- Ca 'dei Dogi showed
@@ -110,12 +118,19 @@ def build():
                 prev = latest.get(key)
                 if not prev or (prev.get("last_seen") or "") > (ts or ""):
                     continue
-                latest[key] = dict(prev,
-                                   price_per_night_eur=e.get("price_per_night_eur") or 0.0,
-                                   total_stay_eur=round((e.get("price_per_night_eur") or 0.0)
-                                                        * config.LEGS_BY_ID[lid]["nights"], 2),
+                price = e.get("price_per_night_eur") or 0.0
+                nights = config.LEGS_BY_ID[lid]["nights"]
+                # Recompute the booking comparison from the new price. Carrying
+                # the old figures forward is what made The St. Regis, at
+                # EUR 1,593/night, advertise a EUR 391 saving.
+                pct, saving = bookings.compare(lid, price, nights)
+                latest[key] = dict(prev, price_per_night_eur=price,
+                                   total_stay_eur=round(price * nights, 2),
                                    band_status="above_band", last_seen=ts,
-                                   delta_vs_last_run_pct=None)
+                                   delta_vs_last_run_pct=None,
+                                   vs_booking_pct=pct, saving_vs_booking_eur=saving,
+                                   lat=e.get("lat", prev.get("lat")),
+                                   lon=e.get("lon", prev.get("lon")))
             # One point per leg per cycle: the best in-band price on offer.
             band = [r["price_per_night_eur"] for r in leg.get("results", [])
                     if r["band_status"] == "in_band"]
@@ -132,6 +147,44 @@ def build():
         lid = leg["leg_id"]
         pool = [r for k, r in latest.items()
                 if r["leg_id"] == lid and _current(r)]
+
+        bk = bookings.for_leg(lid)
+
+        # Where the source does observe the booked hotel, the row still shows
+        # the price you actually paid — that is the baseline. The live market
+        # price is kept alongside as `market_price_eur`, which is the useful
+        # comparison: Modigliani now sells at EUR 275 against EUR 262.58 booked.
+        if bk:
+            for r in pool:
+                if not r.get("is_booking"):
+                    continue
+                r["market_price_eur"] = r["price_per_night_eur"]
+                r["market_seen"] = r.get("last_seen")
+                r["price_per_night_eur"] = bk["price_per_night_eur"]
+                r["total_stay_eur"] = round(bk["price_per_night_eur"] * leg["nights"], 2)
+                r["band_status"] = "in_band"
+                r["vs_booking_pct"] = 0.0
+                r["saving_vs_booking_eur"] = 0.0
+                if r.get("lat") is None:
+                    r["lat"], r["lon"] = bk.get("lat"), bk.get("lon")
+
+        # The booking must always be on screen as the reference, even when the
+        # source has never returned it. iH Hotels Venezia Salute Palace has
+        # appeared in no cycle, so it is synthesised from bookings.json.
+        if bk and not any(r.get("is_booking") for r in pool):
+            pool.append({
+                "hotel_id": None, "hotel_name": bk["hotel_name"], "leg_id": lid,
+                "last_seen": None, "price_per_night_eur": bk["price_per_night_eur"],
+                "total_stay_eur": round(bk["price_per_night_eur"] * leg["nights"], 2),
+                "band_status": "in_band", "is_booking": True, "preference": None,
+                "lat": bk.get("lat"), "lon": bk.get("lon"),
+                "nearest_zone": None, "distance_to_zone_m": None,
+                "rating": 0.0, "review_count": 0, "low_confidence": False,
+                "breakfast_included": None, "has_ac": None, "has_parking": None,
+                "url": "", "delta_vs_last_run_pct": None,
+                "vs_booking_pct": 0.0, "saving_vs_booking_eur": 0.0,
+                "not_observed": True,
+            })
         # In-band first, then below-band: below-band is kept for human review
         # but must not bury the options that actually meet the brief. Inside
         # each group use the monitor's own ranking, so the breakfast / AC /
@@ -155,6 +208,11 @@ def build():
             "nights": leg["nights"],
             "min_per_night": leg["min_per_night"],
             "max_per_night": leg["max_per_night"],
+            "effective_max": bookings.effective_max(leg),
+            "booking": ({"hotel_name": bk["hotel_name"],
+                         "price_per_night_eur": bk["price_per_night_eur"],
+                         "total_stay_eur": round(bk["price_per_night_eur"] * leg["nights"], 2)}
+                        if bk else None),
             "radius_m": leg["radius_m"],
             "zones": [{"name": n, "lat": la, "lon": lo}
                       for n, (la, lo) in leg["zones"].items()],

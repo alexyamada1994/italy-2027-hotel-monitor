@@ -3,7 +3,7 @@
 import re
 from datetime import datetime, timedelta, timezone
 
-from . import config, geo, prefs
+from . import bookings, config, geo, prefs
 
 _EXCLUDE_RE = re.compile("|".join(config.EXCLUDE_NAME_PATTERNS), re.IGNORECASE) \
     if config.EXCLUDE_NAME_PATTERNS else None
@@ -97,9 +97,12 @@ def normalise_price(prop, leg):
 
 
 def classify(per_night, leg):
+    # Ceiling comes from the booking where one exists: an option priced between
+    # the stated band max and what is already booked is still cheaper than the
+    # booking, which makes it the alternative most worth seeing.
     if per_night < leg["min_per_night"]:
         return "below_band"
-    if per_night > leg["max_per_night"]:
+    if per_night > bookings.effective_max(leg):
         return "above_band"
     return "in_band"
 
@@ -164,7 +167,9 @@ def build_result(prop, leg, snapshot, history, now):
     if band == "above_band":
         return None, {"hotel_id": hotel_id, "hotel_name": name,
                       "price_per_night_eur": per_night, "band_status": "above_band",
-                      "reason": f"above_band (max EUR {leg['max_per_night']}/night)"}
+                      "lat": (prop.get("gps_coordinates") or {}).get("latitude"),
+                      "lon": (prop.get("gps_coordinates") or {}).get("longitude"),
+                      "reason": f"above_band (max EUR {bookings.effective_max(leg):.0f}/night)"}
 
     if not in_zone:
         return None, {"hotel_id": hotel_id, "hotel_name": name,
@@ -223,6 +228,9 @@ def build_result(prop, leg, snapshot, history, now):
         "review_count": prop.get("reviews") or 0,
         "low_confidence": (prop.get("reviews") or 0) < config.MIN_REVIEWS_FOR_CONFIDENCE,
         "preference": pref,
+        "is_booking": bookings.is_booking(leg["leg_id"], name),
+        "vs_booking_pct": bookings.compare(leg["leg_id"], per_night, leg["nights"])[0],
+        "saving_vs_booking_eur": bookings.compare(leg["leg_id"], per_night, leg["nights"])[1],
         "url": prop.get("link") or "",
         "band_status": band,
         "detail_checked_at": None,
@@ -238,8 +246,10 @@ def rank(results):
     breakfast, then AC, then well-evidenced ratings, then rating."""
     def key(r):
         bucket = round(r["price_per_night_eur"] / config.TIEBREAK_WINDOW_EUR)
-        # A property you explicitly liked outranks every heuristic.
-        return (0 if r.get("preference") == "liked" else 1,
+        # The booking leads its leg as the reference everything is read
+        # against; then explicit likes, which outrank every heuristic.
+        return (0 if r.get("is_booking") else 1,
+                0 if r.get("preference") == "liked" else 1,
                 bucket,
                 0 if r["breakfast_included"] else 1,
                 0 if r["has_ac"] else 1,

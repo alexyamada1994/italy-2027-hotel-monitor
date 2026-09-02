@@ -58,6 +58,15 @@
   .pill{font-size:10.5px;padding:1px 7px;border-radius:99px;border:1px solid var(--border);
     color:var(--text-secondary);white-space:nowrap;margin-left:6px}
   .pill.good{color:var(--good);border-color:var(--good)}
+  .pill.booked{color:var(--s2);border-color:var(--s2);font-weight:600}
+  tr.booked td{background:color-mix(in srgb,var(--s2) 10%,transparent);
+    border-top:2px solid var(--s2)}
+  tr.booked:hover td{background:color-mix(in srgb,var(--s2) 15%,transparent)}
+  .save{color:var(--good);font-weight:600}
+  .costs{color:var(--muted)}
+  .leaflet-tooltip.bk-label{background:var(--s2);color:#fff;border:0;font-weight:600;
+    font-size:11px;padding:2px 7px;box-shadow:none}
+  .leaflet-tooltip.bk-label:before{border-top-color:var(--s2)}
   .scroll{overflow-x:auto}
   /* Table and map side by side; the map sticks so it stays visible while
      paging. Below 920px they stack and the map releases its sticky position. */
@@ -189,6 +198,15 @@ function boot(d){
       d.trip_total_low_eur?pct:null,d.trip_total_low_eur>d.budget_ceiling_eur?'var(--critical)':'var(--s1)'),
     tile('In-band options',inBand,thin?`${thin} leg${thin>1?'s':''} under 3`:'every leg has 3+',null),
     tile('Your picks tracked',liked,`of ${ROWS.length} properties`,null),
+    (()=>{ // best saving available against the two confirmed bookings
+      const cand=ROWS.filter(r=>!r.is_booking && r.band_status==='in_band'
+                              && (r.saving_vs_booking_eur||0)>0);
+      const best=cand.sort((a,b)=>b.saving_vs_booking_eur-a.saving_vs_booking_eur)[0];
+      const legsWithBooking=d.legs.filter(l=>l.booking).length;
+      return tile('Best saving vs booked', best?eur(best.saving_vs_booking_eur):'—',
+        best?`${best.hotel_name.slice(0,26)} · ${best.city}`
+            :`${legsWithBooking} booking${legsWithBooking===1?'':'s'}, nothing cheaper yet`, null);
+    })(),
     tile('API credits',`${d.credits_used_month} / ${d.monthly_credits}`,
       `${d.credits_remaining_month??'—'} left this month`,cp,cp>85?'var(--critical)':'var(--s1)'),
   ].join('');
@@ -215,6 +233,19 @@ function tile(l,v,s,pct,c){
     (pct==null?'':`<div class="bar"><i style="width:${pct.toFixed(1)}%;background:${c}"></i></div>`)+`</div>`;
 }
 
+// What the booking row says under its name. Any market price is qualified by
+// how long ago it was seen — a single reading from weeks back is not evidence
+// of what the hotel costs today, and must not read as one.
+function bookingNote(r){
+  if(r.not_observed) return 'your booking · never seen in the feed';
+  if(r.market_price_eur==null) return 'your booking';
+  const days=r.market_seen
+    ? Math.floor((Date.now()-new Date(r.market_seen).getTime())/86400000) : null;
+  const age=days==null?'':(days<=0?' today':days===1?' yesterday':` ${days}d ago`);
+  const dir=r.market_price_eur<r.price_per_night_eur?'below':'above';
+  return `your booking · seen at ${eur(r.market_price_eur)}${age} (${dir} what you paid)`;
+}
+
 function draw(){
   const q=fold(document.getElementById('q').value.trim());
   const city=document.getElementById('city').value;
@@ -230,6 +261,9 @@ function draw(){
     (!bf||r.breakfast_included===true));
 
   rows.sort((a,b)=>{
+    // Bookings lead as the baseline everything else is read against, then
+    // explicit picks, then whichever column is being sorted.
+    if(!!a.is_booking!==!!b.is_booking) return a.is_booking?-1:1;
     if((a.preference==='liked')!==(b.preference==='liked')) return a.preference==='liked'?-1:1;
     let x=a[sortKey],y=b[sortKey];
     if(sortKey==='hotel_name'||sortKey==='city'){x=fold(x);y=fold(y);return x<y?-sortDir:x>y?sortDir:0;}
@@ -259,14 +293,21 @@ function draw(){
     const fl=[r.breakfast_included===true?'breakfast':null,
               r.has_ac===true?'AC':(r.has_ac===false?'no AC':null),
               r.has_parking===true?'parking':null].filter(Boolean).join(' · ');
-    return `<tr class="${r.preference==='liked'?'liked':''}" data-id="${esc(r._key)}">`+
+    // Savings are only meaningful for a credible alternative: a EUR 20/night
+    // below-band outlier is not one, so the comparison stays on in-band rows.
+    const sv=(!r.is_booking && r.band_status==='in_band' && r.saving_vs_booking_eur!=null)
+      ? r.saving_vs_booking_eur : null;
+    return `<tr class="${r.is_booking?'booked':(r.preference==='liked'?'liked':'')}" data-id="${esc(r._key)}">`+
       `<td>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.hotel_name)}</a>`
-            :esc(r.hotel_name)}${r.preference==='liked'?'<span class="pill good">your pick</span>':''}`+
-        `<br><span class="flag">${esc(fl||'—')}</span></td>`+
+            :esc(r.hotel_name)}`+
+        (r.is_booking?'<span class="pill booked">booked</span>':'')+
+        (r.preference==='liked'?'<span class="pill good">your pick</span>':'')+
+        `<br><span class="flag">${r.is_booking?bookingNote(r):esc(fl||'—')}</span></td>`+
       `<td><span class="swatch" style="background:var(${SER[r.leg_id-1]})"></span>${esc(r.city)}</td>`+
       `<td class="num${r.band_status==='below_band'?' below':''}">${eur(r.price_per_night_eur)}`+
-        `<br><span class="flag muted">${r.band_status==='below_band'?'below':'in band'}</span></td>`+
-      `<td class="num">${eur(r.total_stay_eur)}<br><span class="flag muted">${r.nights}n</span></td>`+
+        `<br><span class="flag muted">${r.is_booking?'baseline':(r.band_status==='below_band'?'below':'in band')}</span></td>`+
+      `<td class="num">${eur(r.total_stay_eur)}<br><span class="flag ${sv==null?'muted':(sv>0?'save':'costs')}">`+
+        `${sv==null?r.nights+'n':(sv>0?'saves '+eur(sv):'+'+eur(-sv))}</span></td>`+
       `<td>${r.nearest_zone?esc(r.nearest_zone):'<span class="muted">—</span>'}`+
         `<br><span class="flag muted">${r.distance_to_zone_m!=null?Math.round(r.distance_to_zone_m)+' m':''}</span></td>`+
       `<td class="num">${r.rating?r.rating.toFixed(1):'—'}<br>`+
@@ -345,19 +386,36 @@ function drawMap(rows,pageRows){
     if(here) pts.push([r.lat,r.lon]);
     const col=cssv(SER[r.leg_id-1]);
     const liked=r.preference==='liked';
-    // Off-page matches stay on the map but recede, so the page you are reading
-    // reads as the foreground without losing the wider picture.
-    const m=L.circleMarker([r.lat,r.lon],{radius:here?(liked?8:6):4,
-      color:liked?cssv('--good'):col,weight:here?(liked?3:2):1,
-      fillColor:col,fillOpacity:here?.85:.28,opacity:here?1:.35});
+    let m;
+    if(r.is_booking){
+      // The booking is the baseline, so it is always fully visible regardless
+      // of which page you are on, and carries a standing label.
+      m=L.circleMarker([r.lat,r.lon],{radius:11,color:cssv('--s2'),weight:4,
+        fillColor:cssv('--s2'),fillOpacity:.55,opacity:1});
+      m.bindTooltip(`Booked · ${eur(r.price_per_night_eur)}`,
+        {permanent:true,direction:'top',offset:[0,-10],className:'bk-label'});
+      pts.push([r.lat,r.lon]);
+    } else {
+      // Off-page matches stay on the map but recede, so the page you are
+      // reading is the foreground without losing the wider picture.
+      m=L.circleMarker([r.lat,r.lon],{radius:here?(liked?8:6):4,
+        color:liked?cssv('--good'):col,weight:here?(liked?3:2):1,
+        fillColor:col,fillOpacity:here?.85:.28,opacity:here?1:.35});
+    }
     MARKERS[r._key]=m;
-    const band=r.band_status==='in_band'?'in band':r.band_status.replace('_',' ');
+    const band=r.is_booking?'your booking':
+      (r.band_status==='in_band'?'in band':r.band_status.replace('_',' '));
+    const sv=(!r.is_booking && r.band_status==='in_band' && r.saving_vs_booking_eur)
+      ? r.saving_vs_booking_eur : null;
     m.bindPopup(
       `<div style="font:14px system-ui,sans-serif;min-width:190px">`+
       (r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener"><strong>${esc(r.hotel_name)}</strong></a>`
             :`<strong>${esc(r.hotel_name)}</strong>`)+
       (liked?' ✓':'')+
       `<br>${eur(r.price_per_night_eur)}/night · ${band}`+
+      (sv?`<br><span style="color:${cssv('--good')};font-weight:600">saves ${eur(sv)} over ${r.nights} nights</span>`
+         :(sv===null||!r.saving_vs_booking_eur?'':
+           `<br><span style="color:${cssv('--muted')}">${eur(-r.saving_vs_booking_eur)} more than booked</span>`))+
       `<br>${esc(r.city)}${r.nearest_zone?' · '+esc(r.nearest_zone):''}`+
       (r.distance_to_zone_m!=null?` ${Math.round(r.distance_to_zone_m)}m`:'')+
       (r.rating?`<br>${r.rating.toFixed(1)} ★ (${(r.review_count||0).toLocaleString('en-US')} reviews)`:'')+

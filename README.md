@@ -129,6 +129,37 @@ not (Hotel San Gallo rejected at 4.5/662 reviews, Salterelli House liked at
 5.0/3), nor distance, price, or property type. So the judgements are encoded
 literally rather than approximated by a rule.
 
+## Bookings
+
+`bookings.json` holds confirmed reservations. A booking is the **baseline** for
+its leg: every candidate carries `vs_booking_pct` and `saving_vs_booking_eur`,
+the booking is pinned to the top of the table, and it is marked on the map with
+a standing price label.
+
+**A booking also raises the leg's ceiling** (`bookings.effective_max`). Both
+current bookings sit just above their stated band max — Roma EUR 262.58 against
+EUR 250, Veneza EUR 215.49 against EUR 215 — so without this an option priced
+between the band max and the booking would be dropped as `above_band`, despite
+being *cheaper than what is already booked*, which is precisely the alternative
+worth seeing. Band floors are untouched, and legs without a booking keep their
+original ceiling.
+
+Savings are only shown for **in-band** candidates. Below-band outliers (a
+EUR 20/night Venice listing) would otherwise advertise huge fictional savings.
+
+A booking is traveller-supplied reference data and does not depend on the
+source returning it: iH Hotels Venezia Salute Palace has appeared in no cycle —
+it is outside the top results for the Dorsoduro anchor, with or without the
+rating filter — so it is synthesised into the view from `bookings.json` and
+carries optional coordinates purely so it can be pinned. Rows for it are marked
+`not_observed`, meaning its price is what you told us, not a live reading.
+
+**Price comparability caveat.** Our per-night figures add the estimated
+municipal city tax from `CITY_TAX_PER_PERSON_PER_NIGHT` (EUR 15/night for Roma,
+EUR 10 for Veneza). If a quoted booking price excludes the *tassa di soggiorno*
+— commonly collected at the property — then the like-for-like comparison is
+that much higher, and the real savings are larger than shown.
+
 ## Property identity
 
 Identity is `leg_id + normalised name`, **not** `property_token`. Google issues
