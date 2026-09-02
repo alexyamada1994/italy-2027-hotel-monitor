@@ -148,11 +148,23 @@ Savings are only shown for **in-band** candidates. Below-band outliers (a
 EUR 20/night Venice listing) would otherwise advertise huge fictional savings.
 
 A booking is traveller-supplied reference data and does not depend on the
-source returning it: iH Hotels Venezia Salute Palace has appeared in no cycle —
-it is outside the top results for the Dorsoduro anchor, with or without the
-rating filter — so it is synthesised into the view from `bookings.json` and
-carries optional coordinates purely so it can be pinned. Rows for it are marked
-`not_observed`, meaning its price is what you told us, not a live reading.
+source returning it. Where the source has never seen the property, the row is
+synthesised from `bookings.json` and marked `not_observed`.
+
+Coverage of the two booked hotels is thin, which is itself worth knowing:
+Hotel Modigliani has only ever appeared in *exclusion* rows (it sat above the
+old EUR 250 ceiling), and iH Hotels Venezia Salute Palace has been observed
+exactly **once in 53 cycles** — on 2026-08-21, at EUR 165. Neither therefore
+carried coordinates, so `lat`/`lon` in `bookings.json` were sourced from the
+hotels' published addresses. Those fallbacks cross-check against the zone
+distances the API itself recorded — 214 m computed vs 212.7 m stored for Roma,
+472 m vs 472.6 m for Veneza — and are superseded the moment a cycle observes
+the property directly.
+
+**A market price is qualified by its age in the UI.** The Veneza reading of
+EUR 165 is a single data point from twelve days ago that has not recurred; it
+is shown as "seen at EUR 165 11d ago", never as today's price. Do not read it
+as evidence the booking was overpriced without re-checking directly.
 
 **Price comparability caveat.** Our per-night figures add the estimated
 municipal city tax from `CITY_TAX_PER_PERSON_PER_NIGHT` (EUR 15/night for Roma,
