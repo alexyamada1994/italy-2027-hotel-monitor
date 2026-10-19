@@ -1729,7 +1729,7 @@
     "price_per_night_eur": 255.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "1:maison trevi": {
     "hotel_id": "ChkIutLjq8jW_tQnGg0vZy8xMWMxcmZoc3g0EAE",
@@ -1921,7 +1921,7 @@
     "price_per_night_eur": 191.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-10-15T07:45:03.954775+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:rental apartment with terrace yard mountain view": {
     "hotel_id": "ChkQrqn7nLeO88p9Gg0vZy8xMXoyMWd6OTlwEAI",
@@ -1934,10 +1934,10 @@
   "4:apartments fina 158b": {
     "hotel_id": "ChoQu5fC2-zQhJi3ARoNL2cvMTF3dmt0cm1uYhAC",
     "hotel_name": "Apartments Fina 158B",
-    "price_per_night_eur": 200.0,
+    "price_per_night_eur": 224.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:hotel monte44": {
     "hotel_id": "ChkIl8WulLLP3d1AGg0vZy8xMW54MnY5NWJxEAE",
@@ -1950,18 +1950,18 @@
   "4:apartments dami": {
     "hotel_id": "ChoQr52uuMbm6ePrARoNL2cvMTFzc2djOWQ5dxAC",
     "hotel_name": "Apartments Dami",
-    "price_per_night_eur": 238.0,
+    "price_per_night_eur": 236.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-09-13T07:40:15.997280+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:apartments mujnei": {
     "hotel_id": "ChoQwfzaxomYlpT-ARoNL2cvMTF0eHFua2NrbRAC",
     "hotel_name": "Apartments Mujnei",
-    "price_per_night_eur": 208.0,
+    "price_per_night_eur": 232.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:apartment la grambla sella 1 with mountain view balcony wi fi": {
     "hotel_id": "ChkQ6Pv0883v08xWGg0vZy8xMXcxdnBjbXE5EAI",
@@ -1974,10 +1974,10 @@
   "4:apartments rondula pic": {
     "hotel_id": "ChoQvouD4vqpirCJARoNL2cvMTF5czYxazBiZBAC",
     "hotel_name": "Apartments Rondula Pic",
-    "price_per_night_eur": 199.0,
+    "price_per_night_eur": 230.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:apartments agave": {
     "hotel_id": "ChoQk--orubrruTFARoNL2cvMTF3MzN0Y3d0ahAC",
@@ -1990,18 +1990,18 @@
   "4:b b villa angelino": {
     "hotel_id": "ChgIy7GgtoaP5pz_ARoLL2cvMXRnbncxNXIQAQ",
     "hotel_name": "B&B Villa Angelino",
-    "price_per_night_eur": 250.0,
+    "price_per_night_eur": 286.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:montaniola apartment resciesa bright living in a fantastic location": {
     "hotel_id": "ChoQq4SWyeKI3qX8ARoNL2cvMTF2YjFxajgwdhAC",
     "hotel_name": "Montaniola Apartment Resciesa - Bright living in a fantastic location",
-    "price_per_night_eur": 244.0,
+    "price_per_night_eur": 251.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:137a apartments raieta": {
     "hotel_id": "ChoQ_NSsvZjjx7r0ARoNL2cvMTFzc2diXzM1dhAC",
@@ -2065,7 +2065,7 @@
     "price_per_night_eur": 275.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-15T07:45:03.954775+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "5:suite casa gaspari": {
     "hotel_id": "ChgIk7XTuM3Yp8nhARoLL2cvMXY0azVibHkQAQ",
@@ -2094,10 +2094,10 @@
   "5:franceschi park hotel": {
     "hotel_id": "ChcItfqql56_gc18GgsvZy8xdGc0dnA2ORAB",
     "hotel_name": "Franceschi Park Hotel",
-    "price_per_night_eur": 225.0,
+    "price_per_night_eur": 207.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "band_status": "below_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "5:hotel meuble villa neve cortina": {
     "hotel_id": "ChcI7cDrr4iS0bB_GgsvZy8xdGN4MGJ6dxAB",
@@ -2225,7 +2225,7 @@
     "price_per_night_eur": 255.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "1:rotonda 23 loft in pantheon": {
     "hotel_id": "ChoQ4pqUhMf7q5LtARoNL2cvMTF5ODJfNzgybhAC",
@@ -2337,7 +2337,7 @@
     "price_per_night_eur": 224.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-09-29T09:08:00.232947+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "2:residenza giotto": {
     "hotel_id": "ChgI2vaSkbDEntjzARoLL2cvMXRnM2Q2ajEQAQ",
@@ -2577,7 +2577,7 @@
     "price_per_night_eur": 214.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-10-15T07:45:03.954775+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "6:copernico apartment": {
     "hotel_id": "ChoQ8qK65KvKwJb9ARoNL2cvMTF6YmQ0OTEyMBAC",
@@ -2606,10 +2606,10 @@
   "1:suite de charme": {
     "hotel_id": "ChkI1YaBgseb95MfGg0vZy8xMWNuY255NDhyEAE",
     "hotel_name": "Suite de Charme",
-    "price_per_night_eur": 197.0,
+    "price_per_night_eur": 216.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "1:ap caravaggio at spanish steps": {
     "hotel_id": "ChoQ05Xho9a2n_PJARoNL2cvMTF6NWM3cTBiZBAC",
@@ -2790,10 +2790,10 @@
   "4:residence cesa ladina": {
     "hotel_id": "ChgIyZCppou647PfARoLL2cvMXRmNmZnamQQAQ",
     "hotel_name": "Residence Cësa Ladina",
-    "price_per_night_eur": 222.0,
+    "price_per_night_eur": 254.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:apartments agave apartment with balcony": {
     "hotel_id": "ChoQk--orubrruTFARoNL2cvMTF3MzN0Y3d0ahAC",
@@ -2814,10 +2814,10 @@
   "4:apartments berna apartment with terrace": {
     "hotel_id": "ChkQvJObvKSKo8MLGg0vZy8xMWtqNXBscWs5EAI",
     "hotel_name": "Apartments Berna - Apartment with Terrace",
-    "price_per_night_eur": 257.0,
+    "price_per_night_eur": 286.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:holiday apartment with patio garden mountain view": {
     "hotel_id": "ChkQ9aPj1oC8i50qGg0vZy8xMXlzcWQ5MW41EAI",
@@ -2926,10 +2926,10 @@
   "4:greva apartments 2 one bedroom apartment": {
     "hotel_id": "ChkQnLuXg8qe8_oWGg0vZy8xMXk1emJsYnBqEAI",
     "hotel_name": "Greva Apartments 2 - One-Bedroom Apartment",
-    "price_per_night_eur": 272.0,
+    "price_per_night_eur": 268.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-09-23T07:59:22.521958+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "1:the life of the heart of rome": {
     "hotel_id": "ChoQkY-IrYy7gLGxARoNL2cvMTF2ZGpyaDM1ZBAC",
@@ -2988,12 +2988,12 @@
     "run_ts": "2026-10-15T07:45:03.954775+00:00"
   },
   "4:anna lodges dolomites": {
-    "hotel_id": "ChkQm4SkmsLUh-dcGg0vZy8xMXo1XzV2ZjliEAI",
-    "hotel_name": "ANNA LODGES DOLOMITES",
-    "price_per_night_eur": 230.0,
+    "hotel_id": "ChcIo8ya76Ge36ArGgsvZy8xdjJ5eHEwbhAB",
+    "hotel_name": "Anna Lodges Dolomites",
+    "price_per_night_eur": 287.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-13T09:46:35.437362+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:holiday apartment with yard patio mountain view": {
     "hotel_id": "ChkQuIeqtPKuyNtmGg0vZy8xMXZkNl8xNXhrEAI",
@@ -3313,7 +3313,7 @@
     "price_per_night_eur": 291.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-15T07:45:03.954775+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   },
   "4:fully equipped apartment with terrace garden next to the ski": {
     "hotel_id": "ChoQ_NSsvZjjx7r0ARoNL2cvMTFzc2diXzM1dhAC",
@@ -3537,6 +3537,38 @@
     "price_per_night_eur": 253.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-10-17T07:13:21.388276+00:00"
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
+  },
+  "4:192c greva apartments 2": {
+    "hotel_id": "ChkQ8KPWvoyZic4XGg0vZy8xMXk1emNrMmxfEAI",
+    "hotel_name": "192C Greva Apartments 2",
+    "price_per_night_eur": 237.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
+  },
+  "4:holiday apartment mountain view": {
+    "hotel_id": "ChkQwuyYmdGE8OtvGg0vZy8xMXdtc2gzNmY3EAI",
+    "hotel_name": "Holiday apartment | Mountain view",
+    "price_per_night_eur": 288.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
+  },
+  "5:hotel da beppe sello": {
+    "hotel_id": "ChcI1LqvrsmR9uEVGgsvZy8xdGRxeWtkMhAB",
+    "hotel_name": "Hotel da Beppe Sello",
+    "price_per_night_eur": 116.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "below_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
+  },
+  "5:hotel de len": {
+    "hotel_id": "ChoIuavhpZmkpdKWARoNL2cvMTFxaDY0MmozchAB",
+    "hotel_name": "HOTEL de LËN",
+    "price_per_night_eur": 290.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-10-19T08:07:02.031426+00:00"
   }
 }
