@@ -2073,7 +2073,7 @@
     "price_per_night_eur": 158.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-11-09T10:26:59.826130+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "5:romantic suite cristallo sunny wi fi balcony parking space bus 130mt away": {
     "hotel_id": "ChoQ_PiJwvPqvO_lARoNL2cvMTF2OWM0N2JsXxAC",
@@ -2094,10 +2094,10 @@
   "5:franceschi park hotel": {
     "hotel_id": "ChcItfqql56_gc18GgsvZy8xdGc0dnA2ORAB",
     "hotel_name": "Franceschi Park Hotel",
-    "price_per_night_eur": 188.0,
+    "price_per_night_eur": 225.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
-    "band_status": "below_band",
-    "run_ts": "2026-11-11T09:54:54.698815+00:00"
+    "band_status": "in_band",
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "5:hotel meuble villa neve cortina": {
     "hotel_id": "ChcI7cDrr4iS0bB_GgsvZy8xdGN4MGJ6dxAB",
@@ -2105,7 +2105,7 @@
     "price_per_night_eur": 245.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-11-09T10:26:59.826130+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "5:breathtaking view cortina center at 1 3km": {
     "hotel_id": "ChoQvriG-fqQu7CDARoNL2cvMTF3MXpkczk0MxAC",
@@ -2177,7 +2177,7 @@
     "price_per_night_eur": 259.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-11-11T09:54:54.698815+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "1:persia collection trevi": {
     "hotel_id": "ChoI3NyV4uvX2tS7ARoNL2cvMTFmczJweWtoMxAB",
@@ -3025,7 +3025,7 @@
     "price_per_night_eur": 297.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-11-09T10:26:59.826130+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "6:legacy of milan a stylish mini loft": {
     "hotel_id": "ChkQ__XdtaDp1uteGg0vZy8xMW1reXAzaHB2EAI",
@@ -3398,10 +3398,10 @@
   "4:garni morene": {
     "hotel_id": "ChgI7tLcovPHq721ARoLL2cvMXRnYzhicmwQAQ",
     "hotel_name": "Garni Morene",
-    "price_per_night_eur": 198.0,
+    "price_per_night_eur": 201.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-11-09T10:26:59.826130+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "1:rome as you feel grotta pinta apartments": {
     "hotel_id": "ChoQoLnEgfj95bf2ARoNL2cvMTF6eTBzdzJjdhAC",
@@ -3649,7 +3649,7 @@
     "price_per_night_eur": 200.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-11-11T09:54:54.698815+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "4:appartamenti olympic": {
     "hotel_id": "ChgIyajQ0MHA9_KhARoLL2cvMXRkcF96NHgQAQ",
@@ -3721,7 +3721,7 @@
     "price_per_night_eur": 203.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "below_band",
-    "run_ts": "2026-11-09T10:26:59.826130+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "4:apartment apartments emilia 2 with mountain view balcony and wi fi": {
     "hotel_id": "ChkQmcX_k6H884odGg0vZy8xMWtyNjVkN2NuEAI",
@@ -3833,7 +3833,7 @@
     "price_per_night_eur": 295.0,
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
-    "run_ts": "2026-11-07T09:18:53.689749+00:00"
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   },
   "1:gh trevi fountain": {
     "hotel_id": "ChkInbGR2oKp76KaARoML2cvMTJjbnluZzRwEAE",
@@ -3938,5 +3938,21 @@
     "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
     "band_status": "in_band",
     "run_ts": "2026-11-11T09:54:54.698815+00:00"
+  },
+  "3:venice secret garden view": {
+    "hotel_id": "ChoQusiOgtzYtJesARoNL2cvMTF6XzRrdnRuOBAC",
+    "hotel_name": "Venice Secret Garden view",
+    "price_per_night_eur": 165.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "below_band",
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
+  },
+  "3:casanova hideaway": {
+    "hotel_id": "ChoIqtzvk7ud1LbIARoNL2cvMTF6anRnX3BkYxAB",
+    "hotel_name": "Casanova Hideaway",
+    "price_per_night_eur": 204.0,
+    "rate_name": "google_hotels:rate_per_night.lowest(tax_incl)",
+    "band_status": "in_band",
+    "run_ts": "2026-11-13T10:07:27.558166+00:00"
   }
 }
